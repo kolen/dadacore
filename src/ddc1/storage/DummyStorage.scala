@@ -9,6 +9,11 @@ class DummyStorageConnection extends StorageConnection {
     override def next_random = new DummyEndingState()
   }
 
+
+  def lookupStateByWords(words: List[Word]) = null
+
+  def lookupStateByLiteral(words: List[String]) = null
+
   override def is_newly_created = true
   override def starting_state = new DummyStartingState
 }
