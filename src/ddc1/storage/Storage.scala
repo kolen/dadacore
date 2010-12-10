@@ -5,6 +5,8 @@
 
 package ddc1.storage
 
+import java.util.Dictionary
+
 trait Word {
   def literal: String
 }
@@ -14,13 +16,8 @@ trait AvailableNextState extends State {
   def next_all: List[State]
   def next_random: State
 }
-trait ExistentState
-trait UnexistentState
-trait ContinuableState extends ExistentState with AvailableNextState {
-  def addLink(next: State)
-}
-trait StartingState extends AvailableNextState with ExistentState
-trait EndingState extends State with ExistentState
+trait StartingState extends AvailableNextState
+trait EndingState extends State
 trait WordState extends AvailableNextState {
   def words: List[Word]
 }
@@ -28,6 +25,19 @@ trait WordState extends AvailableNextState {
 trait StorageConnection {
   def is_newly_created: Boolean
   def starting_state: StartingState
-  def lookupStateByLiteral(words: List[String])
-  def lookupStateByWords(words: List[Word])
+  def lookupState(words: List)
+
+  /**
+   * marks state transition creating states if necessary.
+   */
+  def markState(words: List)
+
+  /**
+   * Order of markov model. Currently only 3 is supported.
+   */
+  final def order = 3
+}
+
+trait Storage {
+  def connect(params: Dictionary): StorageConnection
 }
