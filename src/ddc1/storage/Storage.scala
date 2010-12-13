@@ -9,6 +9,7 @@ import java.util.Dictionary
 import util.Random
 
 class MarkTransitionStateDoesNotExistException extends Exception
+class StateDoesNotExistInModel extends Exception
 
 trait State
 trait AvailableNextState extends State {

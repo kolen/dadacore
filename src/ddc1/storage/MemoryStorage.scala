@@ -5,12 +5,15 @@ import collection.mutable.{HashSet, HashMap}
 
 class MemoryStorage extends Storage {
   class MemoryStorageConnection extends StorageConnection {
-    private val entries = new HashMap[Vector[String], HashSet[Vector[String]]] ()
-    private val root = new HashSet[Vector[String]] ()
+    private val entries = new HashMap[Array[String], HashSet[Array[String]]] ()
+    private val root = new HashSet[Array[String]] ()
 
-    class MemoryStorageWordState (rawwords: Vector[String]) extends WordState  {
-      def words = rawwords.toList
-      def next_all = entries.get(rawwords).toList.map(st => new MemoryStorageWordState(st))
+    class MemoryStorageWordState (raw_words: Array[String]) extends WordState  {
+      def words = raw_words.toList
+      def next_all = entries.get(raw_words) match {
+        case set:HashSet[Array[String]] => set.toList.map(st => new MemoryStorageWordState(st))
+        case None => throw new StateDoesNotExistInModel()
+      }
     }
 
     private object starting_state_ extends StartingState {
@@ -19,9 +22,10 @@ class MemoryStorage extends Storage {
 
     def lookupState(words: List[String]):Option[State] = {
       assert(words.length == order)
-      entries.get(words) match {
-        case entry:Vector[String] => new MemoryStorageWordState(entry)
-        case None => None
+      val raw_words = words.toArray
+      entries.contains(raw_words) match {
+        case true => new Some(new MemoryStorageWordState(raw_words))
+        case false => None
       }
     }
 
