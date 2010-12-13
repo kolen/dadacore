@@ -2,7 +2,7 @@ package ddc1.test
 
 import org.junit.{Test,Assert}
 import Assert._
-import ddc1.storage.{WordState, StorageConnection}
+import ddc1.storage.{AvailableNextState, State, WordState, StorageConnection}
 
 abstract class StorageTest {
   protected var conn:StorageConnection = null
@@ -36,5 +36,21 @@ abstract class StorageTest {
       case _ =>
         fail("Not WordState returned")
     }
+  }
+
+  def traverseAll(state:State) {
+    state match {
+      case s:AvailableNextState =>
+        val next_all = s.next_all
+        assertTrue(next_all.length != 0)
+        for (nextstate <- next_all) traverseAll(nextstate)
+      case _ => null
+    }
+  }
+
+  @Test
+  def testTraverse1 {
+    conn.markChain(seq1)
+    traverseAll(conn.starting_state)
   }
 }
