@@ -28,7 +28,9 @@ object MemoryStorage extends Storage {
     }
 
     def lookupState(words: List[String]):Option[State] = {
-      assert(words.length == order)
+      if (words.length != order) {
+        throw new IllegalArgumentException("List must contain "+order+" words (same as model order)")
+      }
       val raw_words = words.toArray
       entries.contains(raw_words) match {
         case true => new Some(new MemoryStorageWordState(raw_words))
@@ -37,7 +39,9 @@ object MemoryStorage extends Storage {
     }
 
     def markChain(words: List[String]) = {
-      assert(words.length >= order)
+      if (words.length < order) {
+        throw new IllegalArgumentException("Length of mark chain must be at least model order="+order)
+      }
 
       def getOrCreateEntry(words: List[String]):NextEntriesSet = {
         val raw_words_l = words.toArray
