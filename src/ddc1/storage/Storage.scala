@@ -6,31 +6,30 @@
 package ddc1.storage
 
 import java.util.Dictionary
+import util.Random
 
-trait Word {
-  def literal: String
-}
+class MarkTransitionStateDoesNotExistException extends Exception
 
 trait State
 trait AvailableNextState extends State {
   def next_all: List[State]
-  def next_random: State
+  def next_random: State = Random.shuffle(next_all).head
 }
 trait StartingState extends AvailableNextState
 trait EndingState extends State
 trait WordState extends AvailableNextState {
-  def words: List[Word]
+  def words: List[String]
 }
 
 trait StorageConnection {
   def is_newly_created: Boolean
   def starting_state: StartingState
-  def lookupState(words: List)
+  def lookupState(words: List[String]): Option[State]
 
   /**
    * marks state transition creating states if necessary.
    */
-  def markState(words: List)
+  def markTransition(words: List[Option[String]])
 
   /**
    * Order of markov model. Currently only 3 is supported.
