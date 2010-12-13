@@ -10,6 +10,7 @@ import util.Random
 
 class MarkTransitionStateDoesNotExistException extends Exception
 class StateDoesNotExistInModel extends Exception
+class DatabaseError extends Exception
 
 trait State
 trait AvailableNextState extends State {
@@ -27,10 +28,7 @@ trait StorageConnection {
   def starting_state: StartingState
   def lookupState(words: List[String]): Option[State]
 
-  /**
-   * marks state transition creating states if necessary.
-   */
-  def markTransition(words: List[Option[String]])
+  def markChain(words: List[String])
 
   /**
    * Order of markov model. Currently only 3 is supported.
@@ -39,5 +37,5 @@ trait StorageConnection {
 }
 
 trait Storage {
-  def connect(params: Dictionary): StorageConnection
+  def connect(params: Dictionary[String, String]): StorageConnection
 }
