@@ -37,5 +37,5 @@ trait StorageConnection {
 }
 
 trait Storage {
-  def connect(params: Dictionary[String, String]): StorageConnection
+  def connect(params: Map[String, String]): StorageConnection
 }

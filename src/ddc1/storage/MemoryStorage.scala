@@ -4,7 +4,7 @@ import ddc1.storage._
 import collection.mutable.{HashSet, HashMap}
 import java.util.Dictionary
 
-class MemoryStorage extends Storage {
+object MemoryStorage extends Storage {
   class MemoryStorageConnection extends StorageConnection {
     type NextEntriesSet = HashSet[Option[Array[String]]]
     private val entries = new HashMap[Array[String], NextEntriesSet]()
@@ -68,5 +68,5 @@ class MemoryStorage extends Storage {
     def is_newly_created = true
   }
 
-  def connect(params: Dictionary[String, String]) = new MemoryStorageConnection()
+  def connect(params: Map[String, String]) = new MemoryStorageConnection()
 }
