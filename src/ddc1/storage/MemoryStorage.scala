@@ -4,16 +4,18 @@ import ddc1.storage._
 import collection.mutable.{HashSet, HashMap}
 object MemoryStorage extends Storage {
   class MemoryStorageConnection extends StorageConnection {
-    type NextEntriesSet = HashSet[Option[Array[String]]]
-    private val entries = new HashMap[Array[String], NextEntriesSet]()
-    private val root = new HashSet[Array[String]] ()
+    type StateWords = List[String]
+    type NextEntriesSet = HashSet[Option[StateWords]]
+
+    private val entries = new HashMap[StateWords, NextEntriesSet]()
+    private val root = new HashSet[StateWords] ()
 
     object starting_state extends StartingState {
       def next_all = root.toList.map(strs => new MemoryStorageWordState(strs))
     }
     private object ending_state extends EndingState
 
-    class MemoryStorageWordState (raw_words: Array[String]) extends WordState  {
+    class MemoryStorageWordState (raw_words: StateWords) extends WordState  {
       def words = raw_words.toList
       def next_all = entries.get(raw_words) match {
         case Some(set) => set.toList.map(
@@ -29,9 +31,8 @@ object MemoryStorage extends Storage {
       if (words.length != order) {
         throw new IllegalArgumentException("List must contain "+order+" words (same as model order)")
       }
-      val raw_words = words.toArray
-      entries.contains(raw_words) match {
-        case true => new Some(new MemoryStorageWordState(raw_words))
+      entries.contains(words) match {
+        case true => new Some(new MemoryStorageWordState(words))
         case false => None
       }
     }
@@ -43,12 +44,11 @@ object MemoryStorage extends Storage {
 
       def getOrCreateEntry(words: List[String]):NextEntriesSet = {
         assert(words.length == order)
-        val raw_words_l = words.toArray
-        entries.get(raw_words_l) match {
+        entries.get(words) match {
           case Some(x) => x
           case None => {
             val new_e = new NextEntriesSet()
-            entries.put(raw_words_l, new_e)
+            entries.put(words, new_e)
             new_e
           }
         }
@@ -57,14 +57,14 @@ object MemoryStorage extends Storage {
       def markWordTransitions(words: List[String]) {
         assert(words.length >= order + 1)
         if (words.length == order + 1) {
-          getOrCreateEntry(words.take(order)).add(Some(words.takeRight(order).toArray))
+          getOrCreateEntry(words.take(order)).add(Some(words.takeRight(order)))
         } else {
           markWordTransitions(words.take(order + 1))
           markWordTransitions(words.drop(1))
         }
       }
 
-      root.add(words.take(order).toArray)
+      root.add(words.take(order))
       markWordTransitions(words)
       getOrCreateEntry(words.takeRight(order)).add(None)
     }
