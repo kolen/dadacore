@@ -8,6 +8,7 @@ abstract class StorageTest {
   protected var conn:StorageConnection = null
   protected val seq1 = List("anas", "crecca", "is", "a", "common", "and", "widespread", "duck", "which", "breeds", "in",
       "temperate", "eurasia", "and", "migrates", "south", "in", "winter", ".") // 19
+  protected val seq2 = List("what", "is", "a", "common", "law", "marriage", "?") // 7
 
   @Test
   def testFillCheck {
@@ -52,5 +53,34 @@ abstract class StorageTest {
   def testTraverse1 {
     conn.markChain(seq1)
     traverseAll(conn.starting_state)
+  }
+
+  @Test
+  def testSplit {
+    conn.markChain(seq1)
+    conn.markChain(seq2)
+    traverseAll(conn.starting_state)
+
+    assertEquals(2, conn.starting_state.next_all.length)
+
+    val splitting_state = conn.lookupState(List("is", "a", "common"))
+    splitting_state match {
+      case Some(s:AvailableNextState) =>
+        assertEquals(2, s.next_all.length)
+      case None =>
+        fail("No state")
+      case _ =>
+        fail("Non-availablenext state")
+    }
+
+    val nonsplitting_state = conn.lookupState(List("widespread", "duck", "which"))
+    nonsplitting_state match {
+      case Some(s:AvailableNextState) =>
+        assertEquals(1, s.next_all.length)
+      case None =>
+        fail("No state")
+      case _ =>
+        fail("Non-availablenext state")
+    }
   }
 }
