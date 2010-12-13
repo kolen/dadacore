@@ -2,7 +2,7 @@ package ddc1.test
 
 import org.junit.{Test,Assert}
 import Assert._
-import ddc1.storage.{AvailableNextState, State, WordState, StorageConnection}
+import ddc1.storage._
 
 abstract class StorageTest {
   protected var conn:StorageConnection = null
@@ -82,5 +82,25 @@ abstract class StorageTest {
       case _ =>
         fail("Non-availablenext state")
     }
+  }
+
+  @Test
+  def testEnding {
+    conn.markChain(seq1)
+    conn.markChain(seq2)
+
+    def testStateHasOnlyEnding(state:Option[State]) {
+      state match {
+        case Some(x:AvailableNextState) =>
+          val next = x.next_all
+          assertEquals(1, next.length)
+          assertTrue(next.head.isInstanceOf[EndingState])
+        case _ =>
+          fail
+      }
+    }
+
+    testStateHasOnlyEnding(conn.lookupState(List("in", "winter", ".")))
+    testStateHasOnlyEnding(conn.lookupState(List("law", "marriage", "?")))
   }
 }
