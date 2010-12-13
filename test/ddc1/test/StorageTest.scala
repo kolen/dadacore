@@ -2,12 +2,12 @@ package ddc1.test
 
 import org.junit.{Test,Assert}
 import Assert._
-import ddc1.storage.{WordState, State, StorageConnection}
+import ddc1.storage.{WordState, StorageConnection}
 
 abstract class StorageTest {
   protected var conn:StorageConnection = null
   protected val seq1 = List("anas", "crecca", "is", "a", "common", "and", "widespread", "duck", "which", "breeds", "in",
-      "temperate", "eurasia", "and", "migrates", "south", "in", "winter", ".")
+      "temperate", "eurasia", "and", "migrates", "south", "in", "winter", ".") // 19
 
   @Test
   def testFillCheck {
@@ -28,14 +28,13 @@ abstract class StorageTest {
       case _ => fail("Not WordState returned")
     }
 
-
-
     val state_in_middle = conn.lookupState(List("common", "and", "widespread"))
     state_in_middle match {
-      case x:WordState =>
+      case Some(x:WordState) =>
         val next = x.next_all
         assertEquals(1, next.length)
-      case _ => fail("Not WordState returned")
+      case _ =>
+        fail("Not WordState returned")
     }
   }
 }
