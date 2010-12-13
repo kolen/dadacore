@@ -103,4 +103,23 @@ abstract class StorageTest {
     testStateHasOnlyEnding(conn.lookupState(List("in", "winter", ".")))
     testStateHasOnlyEnding(conn.lookupState(List("law", "marriage", "?")))
   }
+
+  @Test
+  def testTooSmallSequences {
+    try {
+      conn.markChain(List("too", "small"))
+      fail
+    } catch {
+      case _:IllegalArgumentException => Nil
+      case _ => fail
+    }
+
+    try {
+      conn.lookupState(List("Not", "equal", "to", "order"))
+      fail
+    } catch {
+      case _:IllegalArgumentException => Nil
+      case _ => fail
+    }
+  }
 }
