@@ -2,8 +2,6 @@ package ddc1.storage.memory
 
 import ddc1.storage._
 import collection.mutable.{HashSet, HashMap}
-import java.util.Dictionary
-
 object MemoryStorage extends Storage {
   class MemoryStorageConnection extends StorageConnection {
     type NextEntriesSet = HashSet[Option[Array[String]]]
@@ -44,6 +42,7 @@ object MemoryStorage extends Storage {
       }
 
       def getOrCreateEntry(words: List[String]):NextEntriesSet = {
+        assert(words.length == order)
         val raw_words_l = words.toArray
         entries.get(raw_words_l) match {
           case Some(x) => x
