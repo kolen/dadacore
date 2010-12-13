@@ -55,11 +55,12 @@ object MemoryStorage extends Storage {
       }
 
       def markWordTransitions(words: List[String]) {
+        assert(words.length >= order + 1)
         if (words.length == order + 1) {
           getOrCreateEntry(words.take(order)).add(Some(words.takeRight(order).toArray))
         } else {
           markWordTransitions(words.take(order + 1))
-          markWordTransitions(words.slice(1, order + 2))
+          markWordTransitions(words.drop(1))
         }
       }
 
