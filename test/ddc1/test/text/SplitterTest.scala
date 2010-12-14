@@ -19,6 +19,15 @@ class SplitterTest {
     "оооо", "! ", "аааа", "! — ",
     "он", "укрепляет", "анал", "..."
   )
+  private val text3 = "Hanging is the prevalent means of suicide"
+  private val result3 = List("hanging", "is", "the", "prevalent", "means", "of", "suicide")
+  private val text4 = """
+    Блоггерка nordica1488 слушала current93 в 12:00 и у нее произошел ывсоР87рЫ72оч52 4 scывс34соам7a.
+    """
+  private val result4 = List(
+    "блоггерка", "nordica1488", "слушала", "current93", "в", "12", ":", "00", "и", "у", "нее", "произошел",
+    "ывсор87ры72оч52", "4", "scывс34соам7a"
+  )
 
   @Test
   def testSplit1 {
@@ -28,5 +37,26 @@ class SplitterTest {
   @Test
   def testSplit2 {
     assertEquals(result2, Splitter.split(text2))
+  }
+
+  @Test
+  def testSplit3 {
+    assertEquals(result3, Splitter.split(text3))
+  }
+
+  @Test
+  def testSplit4 {
+    assertEquals(result3, Splitter.split(text3))
+  }
+
+  @Test
+  def testSpecialCases {
+    assertEquals(List(), Splitter split "")
+    assertEquals(List(), Splitter split "    ")
+  }
+
+  @Test
+  def testStrange {
+    assertEquals(List("а", "б", "в"), Splitter split "  а   б в     ")
   }
 }
