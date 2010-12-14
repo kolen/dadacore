@@ -26,7 +26,7 @@ class SplitterTest {
     """
   private val result4 = List(
     "блоггерка", "nordica1488", "слушала", "current93", "в", "12", ":", "00", "и", "у", "нее", "произошел",
-    "ывсор87ры72оч52", "4", "scывс34соам7a"
+    "ывсор87ры72оч52", "4", "scывс34соам7a", "."
   )
 
   @Test
@@ -46,7 +46,7 @@ class SplitterTest {
 
   @Test
   def testSplit4 {
-    assertEquals(result3, Splitter.split(text3))
+    assertEquals(result4, Splitter.split(text4))
   }
 
   @Test
