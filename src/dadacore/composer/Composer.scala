@@ -10,7 +10,7 @@ object Composer {
     @tailrec
     def traverse(existing_words:List[String], state:State):List[String] = {
       state match {
-        case s:WordState => traverse(s.words.last :: existing_words, s.next_random)
+        case s:WordState => traverse(existing_words :+ s.words.last, s.next_random)
         case _:EndingState => existing_words
       }
     }
