@@ -16,7 +16,7 @@ object Composer {
     }
 
     conn.starting_state.next_random match {
-      case s:WordState => traverse(s.words, s)
+      case s:WordState => traverse(s.words.take(conn.order-1), s)
       case _ => throw new ComposerException()
     }
   }

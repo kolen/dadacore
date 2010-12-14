@@ -19,4 +19,11 @@ class ComposerTest {
     conn.markChain(List("труп", "валяется", "."))
     assertEquals(List("труп", "валяется", "."), Composer.random(conn))
   }
+
+  @Test
+  def test2 {
+    val testlist = List("труп", "валяется", ", ", "гниет", ".")
+    conn.markChain(testlist)
+    assertEquals(testlist, Composer.random(conn))
+  }
 }
