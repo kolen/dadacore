@@ -68,7 +68,9 @@ object MemoryStorage extends Storage {
       }
 
       root.add(words.take(order))
-      markWordTransitions(words)
+      if (words.length != order) { // if only equals to order, just mark trans start -> word -> end, not word -> word
+        markWordTransitions(words)
+      }
       getOrCreateEntry(words.takeRight(order)).add(None)
     }
 
