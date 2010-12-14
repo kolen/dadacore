@@ -30,6 +30,10 @@ object Joiner {
       }
     }
 
+    if (!words.last.matches("[?!.]")) {
+      out append '.'
+    }
+
     out.toString
   }
 }
