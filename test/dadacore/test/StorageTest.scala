@@ -126,5 +126,17 @@ abstract class StorageTest {
   @Test
   def minimumSizeSequenceLearn {
     conn.markChain(List("small", "test", "."))
+    val first_states = conn.starting_state.next_all
+    assertEquals(1, first_states.length)
+    first_states.head match {
+      case s:WordState =>
+        val second_states = s.next_all
+        assertEquals(1, second_states.length)
+        second_states.head match {
+          case _:EndingState => Nil
+          case _ => fail
+        }
+      case _ => fail
+    }
   }
 }
