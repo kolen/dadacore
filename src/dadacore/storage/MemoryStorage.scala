@@ -2,6 +2,8 @@ package dadacore.storage.memory
 
 import dadacore.storage._
 import collection.mutable.{HashSet, HashMap}
+import scala.annotation.tailrec
+
 object MemoryStorage extends Storage {
   class MemoryStorageConnection extends StorageConnection {
     type StateWords = List[String]
@@ -54,6 +56,7 @@ object MemoryStorage extends Storage {
         }
       }
 
+      @tailrec
       def markWordTransitions(words: List[String]) {
         assert(words.length >= order + 1)
         if (words.length == order + 1) {
