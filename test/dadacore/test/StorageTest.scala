@@ -122,4 +122,9 @@ abstract class StorageTest {
       case _ => fail
     }
   }
+
+  @Test
+  def minimumSizeSequenceLearn {
+    conn.markChain(List("small", "test", "."))
+  }
 }
