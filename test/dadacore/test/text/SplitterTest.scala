@@ -1,6 +1,6 @@
-package ddc1.test.text
+package dadacore.test.text
 
-import ddc1.text.Splitter
+import dadacore.text.Splitter
 import org.junit.{Test,Assert}
 import Assert._
 

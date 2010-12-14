@@ -1,7 +1,7 @@
-package ddc1.test
+package dadacore.test
 
 import org.junit.{Before, Test}
-import ddc1.storage.memory.MemoryStorage
+import dadacore.storage.memory.MemoryStorage
 import collection.immutable.HashMap
 
 class MemoryStorageTest extends StorageTest {

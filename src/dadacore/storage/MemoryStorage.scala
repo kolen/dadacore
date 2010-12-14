@@ -1,6 +1,6 @@
-package ddc1.storage.memory
+package dadacore.storage.memory
 
-import ddc1.storage._
+import dadacore.storage._
 import collection.mutable.{HashSet, HashMap}
 object MemoryStorage extends Storage {
   class MemoryStorageConnection extends StorageConnection {

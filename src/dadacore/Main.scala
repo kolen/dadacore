@@ -3,14 +3,14 @@
  * and open the template in the editor.
  */
 
-package ddc1
+package dadacore
 
 object Main {
   /**
    * @param args the command line arguments
    */
   def main(args: Array[String]): Unit = {
-    import ddc1.storage
+    import dadacore.storage
 
     println("Hello, world!")
   }

@@ -1,8 +1,8 @@
-package ddc1.test
+package dadacore.test
 
 import org.junit.{Test,Assert}
 import Assert._
-import ddc1.storage._
+import dadacore.storage._
 
 abstract class StorageTest {
   protected var conn:StorageConnection = null

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package ddc1.storage
+package dadacore.storage
 
 import java.util.Dictionary
 import util.Random

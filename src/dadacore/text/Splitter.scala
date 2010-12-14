@@ -1,4 +1,4 @@
-package ddc1.text
+package dadacore.text
 
 import scala.util.matching.Regex
 
