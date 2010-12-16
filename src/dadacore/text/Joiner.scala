@@ -1,6 +1,10 @@
 package dadacore.text
 
+import util.matching.Regex
+
 object Joiner {
+  private val sentence_end_regex = new Regex("[?!.]")
+
   def join(words:List[String]):String = {
     val out = new StringBuilder()
     var last_was_end_of_sentence = true
@@ -25,7 +29,7 @@ object Joiner {
         // punctuation chars
         out append word
 
-        last_was_end_of_sentence = word != "." && (word.matches("[?!.]"))
+        last_was_end_of_sentence = word != "." && sentence_end_regex.findFirstIn(word).isDefined
         last_was_word = false
       }
     }
