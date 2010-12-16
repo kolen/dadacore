@@ -34,7 +34,7 @@ object Joiner {
       }
     }
 
-    if (last_was_end_of_sentence)
+    if (!last_was_end_of_sentence)
       out append '.'
 
     out.toString
