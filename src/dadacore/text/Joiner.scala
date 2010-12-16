@@ -29,7 +29,7 @@ object Joiner {
         // punctuation chars
         out append word
 
-        last_was_end_of_sentence = word != "." && sentence_end_regex.findFirstIn(word).isDefined
+        last_was_end_of_sentence = sentence_end_regex.findFirstIn(word).isDefined
         last_was_word = false
       }
     }
