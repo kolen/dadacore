@@ -5,7 +5,6 @@
 
 package dadacore.storage
 
-import java.util.Dictionary
 import util.Random
 
 class MarkTransitionStateDoesNotExistException extends Exception
@@ -33,7 +32,7 @@ trait StorageConnection {
   /**
    * Order of markov model. Currently only 3 is supported.
    */
-  final def order = 3
+  final def order = 2
 }
 
 trait Storage {
