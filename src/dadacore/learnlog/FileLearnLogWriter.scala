@@ -17,7 +17,7 @@ class FileLearnLogWriter(filename: String) extends LearnLogWriter {
         log_element.user,
         log_element.source,
         log_element.text
-      ).mkString(" ")
+      ).mkString("", " ", "\n")
     )
     writer.flush
   }
