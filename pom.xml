@@ -76,22 +76,29 @@
           </classpathContainers>
         </configuration>
       </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <configuration>
-            <archive>
-              <manifest>
-                <mainClass>dadacore.Main</mainClass>
-                <packageName>dadacore</packageName>
-              </manifest>
-              <manifestEntries>
-                <mode>development</mode>
-                <url>${pom.url}</url>
-              </manifestEntries>
-            </archive>
-          </configuration>
-        </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>dadacore.Main</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-my-jar-with-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <reporting>
@@ -105,5 +112,5 @@
       </plugin>
     </plugins>
   </reporting>
-  <packaging>jar</packaging>
+  <!--<packaging>jar</packaging>-->
 </project>
