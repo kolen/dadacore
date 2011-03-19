@@ -2,4 +2,9 @@
 /*.iml
 /*.bundle
 /out
+/target
+/learnlog.txt
+/learnlog.log
+\#*\#
+
 
