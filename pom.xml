@@ -7,6 +7,7 @@
   <inceptionYear>2008</inceptionYear>
   <properties>
     <scala.version>2.8.1</scala.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <repositories>
@@ -88,4 +89,5 @@
       </plugin>
     </plugins>
   </reporting>
+  <packaging>jar</packaging>
 </project>
