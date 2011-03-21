@@ -112,5 +112,4 @@
       </plugin>
     </plugins>
   </reporting>
-  <!--<packaging>jar</packaging>-->
 </project>
