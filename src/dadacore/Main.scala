@@ -1,22 +1,22 @@
 package dadacore
 
-import brain.Brain
+import org.eclipse.jetty.server.Server
+import org.eclipse.jetty.servlet.{ServletContextHandler, ServletHolder}
+import dadacore.web.Servlet
 
 object Main {
   /**
    * @param args the command line arguments
    */
   def main(args: Array[String]): Unit = {
-    val br = new Brain
+    val server = new Server(8080)
 
-    if (args.length == 1) {
-      val input_iterator = io.Source.fromFile(args(0), "UTF-8").getLines()
-      for (line <- input_iterator) {
-        br.learn(line)
-      }
-    }
+    val context = new ServletContextHandler(ServletContextHandler.SESSIONS)
+    context.setContextPath("/")
+    server.setHandler(context)
+    context.addServlet(new ServletHolder(new Servlet),"/*")
 
-    for (i <- 0 until 100)
-      println(br.generateRandom)
+    server.start
+    server.join
   }
 }
