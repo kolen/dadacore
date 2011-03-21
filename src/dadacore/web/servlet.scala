@@ -1,11 +1,9 @@
 package dadacore.web
 
-/**
- * Created by IntelliJ IDEA.
- * User: kolen
- * Date: 21.03.11
- * Time: 14:27
- * To change this template use File | Settings | File Templates.
- */
+import org.scalatra.ScalatraServlet
 
-class servlet
+class Servlet extends ScalatraServlet {
+  get("/") {
+    <h1>Hello, world!</h1>
+  }
+}
