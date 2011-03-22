@@ -18,3 +18,4 @@ target/
 *.ipr
 *.iws
 .*.sw?
+/pom.xml
