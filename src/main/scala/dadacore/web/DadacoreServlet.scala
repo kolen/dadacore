@@ -24,7 +24,7 @@ object Main {
 }
 */
 
-class Servlet extends ScalatraServlet {
+class DadacoreServlet extends ScalatraServlet {
   val brain = new Brain
 
   get("/") {
