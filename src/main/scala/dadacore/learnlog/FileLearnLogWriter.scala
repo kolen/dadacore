@@ -11,12 +11,13 @@ class FileLearnLogWriter(filename: String) extends LearnLogWriter {
   val date_formatter = new SimpleDateFormat("yyyy-MM-dd,hh:mm")
 
   def write(log_element: LearnLogElement) {
+    val modified_text = log_element.text.replaceAll("\\s+", " ")
     writer.write(
       List(
         date_formatter.format(log_element.date),
         log_element.user,
         log_element.source,
-        log_element.text
+        modified_text
       ).mkString("", " ", "\n")
     )
     writer.flush
