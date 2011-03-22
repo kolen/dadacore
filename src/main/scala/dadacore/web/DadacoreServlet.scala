@@ -8,9 +8,27 @@ class DadacoreServlet extends ScalatraServlet {
 
   get("/") {
     contentType = "text/html"
-    val wr = response.getWriter()
-    for (i <- 0 until 50) {
-      wr.append((<p>{brain.generateRandom}</p>).toString)
-    }
+    <html>
+    <head>
+      <title>dadacore</title>
+    </head>
+    <body>
+    <form method="post" action="/api/learn">
+    <textarea name="text" />
+    <button type="submit">ook</button>
+    </form>
+    <div>{
+      for (i <- 0 until 50) yield
+        <p>{brain.generateRandom}</p>
+      }
+    </div>
+    </body>
+    </html>
+  }
+
+  post("/api/learn") {
+    val text = request.getParameter("text")
+    brain.learn(text)
+    redirect("/")
   }
 }
