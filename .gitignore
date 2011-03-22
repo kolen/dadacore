@@ -19,3 +19,4 @@ target/
 *.iws
 .*.sw?
 /pom.xml
+/sbt-launch.jar
