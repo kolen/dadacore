@@ -28,7 +28,9 @@ class DadacoreServlet extends ScalatraServlet {
 
   post("/api/learn") {
     val text = request.getParameter("text")
-    brain.learn(text)
+    val lines = text.split("\\s*(\\r|\\n)\\s*")
+    for (line <- lines)
+      brain.learn(line)
     redirect("/")
   }
 }
