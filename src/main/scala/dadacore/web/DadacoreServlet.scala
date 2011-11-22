@@ -14,7 +14,7 @@ class DadacoreServlet extends ScalatraServlet {
     </head>
     <body>
     <form method="post" action="/api/learn">
-    <textarea name="text" />
+    <textarea name="text" cols="80" rows="10" />
     <button type="submit">ook</button>
     </form>
     <div>{
