@@ -56,7 +56,7 @@ object MemoryStorage extends Storage {
         }
       }
 
-      @tailrec
+      //@tailrec
       def markWordTransitions(words: List[String]) {
         assert(words.length >= order + 1)
         if (words.length == order + 1) {
