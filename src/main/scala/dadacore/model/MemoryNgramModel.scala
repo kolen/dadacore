@@ -53,10 +53,10 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   def next(context: Context[String]) = null
 
   @tailrec
-  final def append(text: Seq[String], learn_sentence: LearnSentence) {
+  final def learn(text: Seq[String], learn_sentence: LearnSentence) {
     if (text.length >= order+1) {
       appendWord(text.take(order), text(order), learn_sentence)
-      append(text.drop(1), learn_sentence)
+      learn(text.drop(1), learn_sentence)
     }
   }
 
