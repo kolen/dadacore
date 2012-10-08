@@ -1,5 +1,5 @@
 package dadacore.learnsource
 
-trait LearnSource {
+trait LearnSentence {
 
 }

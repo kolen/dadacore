@@ -1,6 +1,6 @@
 package dadacore.model
 
-import dadacore.learnsource.LearnSource
+import dadacore.learnsource.LearnSentence
 import collection.mutable
 import annotation.tailrec
 
@@ -8,15 +8,15 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   abstract class NextEntry {
     def word: String
     def counts: Long
-    def newOccurenceFromSource(new_source: LearnSource): NextEntry
+    def newOccurenceFromSource(new_source: LearnSentence): NextEntry
   }
-  case class NextEntrySingle (word: String, counts: Long, source: LearnSource) extends NextEntry {
-    def newOccurenceFromSource(new_source: LearnSource) = if
+  case class NextEntrySingle (word: String, counts: Long, source: LearnSentence) extends NextEntry {
+    def newOccurenceFromSource(new_source: LearnSentence) = if
       (new_source == source) NextEntrySingle(word, counts+1, source)
       else NextEntryMultiple(word, counts+1, Array(source, new_source))
   }
-  case class NextEntryMultiple (word: String, counts: Long, sources: Array[LearnSource]) extends NextEntry {
-    def newOccurenceFromSource(new_source: LearnSource) = NextEntryMultiple(word, counts+1, sources)
+  case class NextEntryMultiple (word: String, counts: Long, sources: Array[LearnSentence]) extends NextEntry {
+    def newOccurenceFromSource(new_source: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
   }
 
   class IntegrityError extends Exception
@@ -53,22 +53,22 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   def next(context: Context[String]) = null
 
   @tailrec
-  final def append(text: Seq[String], learn_source: LearnSource) {
+  final def append(text: Seq[String], learn_sentence: LearnSentence) {
     if (text.length >= order+1) {
-      appendWord(text.take(order), text(order), learn_source)
-      append(text.drop(1), learn_source)
+      appendWord(text.take(order), text(order), learn_sentence)
+      append(text.drop(1), learn_sentence)
     }
   }
 
-  protected def appendWord(context:Seq[String], word:String, learn_source:LearnSource) {
+  protected def appendWord(context:Seq[String], word:String, learn_sentence:LearnSentence) {
     dictionary.put(context.toArray, dictionary.get(context.toArray) match {
       case None =>
-        Array(NextEntrySingle(word, 1, learn_source))
+        Array(NextEntrySingle(word, 1, learn_sentence))
       case Some(next_entries) => {
         val (withword, withoutword) = next_entries.partition((e:NextEntry)=>e.word == word)
         val new_entry:NextEntry = withword.length match {
-          case 0 => NextEntrySingle(word, 1, learn_source)
-          case 1 => withword(0).newOccurenceFromSource(learn_source)
+          case 0 => NextEntrySingle(word, 1, learn_sentence)
+          case 1 => withword(0).newOccurenceFromSource(learn_sentence)
           case _ => throw new IntegrityError()
         }
         (withoutword ++ List(new_entry)).toArray

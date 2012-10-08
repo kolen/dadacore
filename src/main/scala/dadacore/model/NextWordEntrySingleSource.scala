@@ -1,7 +1,7 @@
 package dadacore.model
 
-import dadacore.learnsource.LearnSource
+import dadacore.learnsource.LearnSentence
 
 trait NextWordEntrySingleSource[Word] extends NextWordEntry[Word] {
-  def source: LearnSource
+  def source: LearnSentence
 }
