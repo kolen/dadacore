@@ -21,5 +21,5 @@ class FileLearnLogReader(filename:String) extends LearnLogReader {
     }
 
   def hasNext = input_iterator.hasNext
-  def next() = parseLine(input_iterator.next)
+  def next() = parseLine(input_iterator.next())
 }

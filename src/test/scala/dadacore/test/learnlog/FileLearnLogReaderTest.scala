@@ -6,13 +6,13 @@ import java.io.{FileOutputStream, OutputStreamWriter, BufferedWriter, File}
 import java.nio.charset.Charset
 import dadacore.learnlog.{LearnLogElement, FileLearnLogReader}
 import java.util.Date
-import java.text.{SimpleDateFormat}
+import java.text.SimpleDateFormat
 
 class FileLearnLogReaderTest {
   @Test
-  def test {
+  def test() {
     val tempfile = File.createTempFile("learn", "log")
-    tempfile.deleteOnExit
+    tempfile.deleteOnExit()
 
     val writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempfile), Charset.forName("UTF-8")))
     writer write "2010-12-16,10:56 mithgol wikipedia,2-ch Понятие шушпанчика зародилось в сети Фидонет в 2001 году, его происхождение связано с именем одного из пойнтов этой сети"

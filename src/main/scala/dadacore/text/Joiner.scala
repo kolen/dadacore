@@ -10,7 +10,7 @@ object Joiner {
     var last_was_end_of_sentence = true
     var last_was_word = false
     for (word <- words) {
-      if (word charAt 0 isLetterOrDigit) {
+      if (word.charAt(0).isLetterOrDigit) {
         // word
         if (last_was_word) {
           out append ' '
@@ -37,6 +37,6 @@ object Joiner {
     if (!last_was_end_of_sentence)
       out append '.'
 
-    out.toString
+    out.toString()
   }
 }

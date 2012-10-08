@@ -39,7 +39,7 @@ object MemoryStorage extends Storage {
       }
     }
 
-    def markChain(words: List[String]) = {
+    def markChain(words: List[String]) {
       if (words.length < order) {
         throw new IllegalArgumentException("Length of mark chain must be at least model order="+order)
       }

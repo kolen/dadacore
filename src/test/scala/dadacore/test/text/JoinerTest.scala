@@ -12,12 +12,12 @@ class JoinerTest {
   private val joined2 = "Драм это ненапряжная музыка, простая для мозга."
 
   @Test
-  def testJoin1 {
+  def testJoin1() {
     assertEquals(joined1, Joiner.join(list1))
   }
 
   @Test
-  def testJoin2 {
+  def testJoin2() {
     assertEquals(joined2, Joiner.join(list2))
   }
 }

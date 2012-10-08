@@ -11,7 +11,7 @@ abstract class StorageTest {
   protected val seq2 = List("what", "is", "a", "common", "law", "marriage", "?") // 7
 
   @Test
-  def testFillCheck {
+  def testFillCheck() {
     conn.markChain(seq1)
     val next_all_at_root = conn.starting_state.next_all
     assertEquals(1, next_all_at_root.length)
@@ -50,13 +50,13 @@ abstract class StorageTest {
   }
 
   @Test
-  def testTraverse1 {
+  def testTraverse1() {
     conn.markChain(seq1)
     traverseAll(conn.starting_state)
   }
 
   @Test
-  def testSplit {
+  def testSplit() {
     conn.markChain(seq1)
     conn.markChain(seq2)
     traverseAll(conn.starting_state)
@@ -85,7 +85,7 @@ abstract class StorageTest {
   }
 
   @Test
-  def testEnding {
+  def testEnding() {
     conn.markChain(seq1)
     conn.markChain(seq2)
 
@@ -105,7 +105,7 @@ abstract class StorageTest {
   }
 
   @Test
-  def testTooSmallSequences {
+  def testTooSmallSequences() {
     try {
       conn.markChain(List("too", "small"))
       fail
@@ -124,7 +124,7 @@ abstract class StorageTest {
   }
 
   @Test
-  def minimumSizeSequenceLearn {
+  def minimumSizeSequenceLearn() {
     conn.markChain(List("small", "test", "."))
     val first_states = conn.starting_state.next_all
     assertEquals(1, first_states.length)

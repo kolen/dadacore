@@ -6,7 +6,7 @@ import collection.immutable.HashMap
 
 class MemoryStorageTest extends StorageTest {
   @Before
-  def setUp = {
+  def setUp() {
     conn = MemoryStorage.connect(new HashMap[String, String]())
   }
 }

@@ -30,33 +30,33 @@ class SplitterTest {
   )
 
   @Test
-  def testSplit1 {
+  def testSplit1() {
     assertEquals(result1, Splitter.split(text1))
   }
 
   @Test
-  def testSplit2 {
+  def testSplit2() {
     assertEquals(result2, Splitter.split(text2))
   }
 
   @Test
-  def testSplit3 {
+  def testSplit3() {
     assertEquals(result3, Splitter.split(text3))
   }
 
   @Test
-  def testSplit4 {
+  def testSplit4() {
     assertEquals(result4, Splitter.split(text4))
   }
 
   @Test
-  def testSpecialCases {
+  def testSpecialCases() {
     assertEquals(List(), Splitter split "")
     assertEquals(List(), Splitter split "    ")
   }
 
   @Test
-  def testStrange {
+  def testStrange() {
     assertEquals(List("а", "б", "в"), Splitter split "  а   б в     ")
   }
 }

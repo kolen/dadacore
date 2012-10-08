@@ -20,6 +20,6 @@ class FileLearnLogWriter(filename: String) extends LearnLogWriter {
         modified_text
       ).mkString("", " ", "\n")
     )
-    writer.flush
+    writer.flush()
   }
 }

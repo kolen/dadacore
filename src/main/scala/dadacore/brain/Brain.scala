@@ -21,9 +21,9 @@ class Brain {
     case _:LearnLogNoSuchLogError => Nil
   }
 
-  def learn(text:String):Unit = learn("-", text)
-  def learn(user:String, text:String):Unit = learn(user, "none", text)
-  def learn(user:String, source:String, text: String):Unit = {
+  def learn(text:String) { learn("-", text) }
+  def learn(user:String, text:String) { learn(user, "none", text) }
+  def learn(user:String, source:String, text: String) {
     if (learn_to_model(text))
       log_writer.write(user, source, text)
   }

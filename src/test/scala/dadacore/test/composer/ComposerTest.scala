@@ -10,18 +10,18 @@ import dadacore.composer.Composer
 class ComposerTest {
   private var conn:StorageConnection = null
   @Before
-  def setUp {
+  def setUp() {
     conn = MemoryStorage.connect(new HashMap())
   }
 
   @Test
-  def test1 {
+  def test1() {
     conn.markChain(List("труп", "валяется", "."))
     assertEquals(List("труп", "валяется", "."), Composer.random(conn))
   }
 
   @Test
-  def test2 {
+  def test2() {
     val testlist = List("труп", "валяется", ", ", "гниет", ".")
     conn.markChain(testlist)
     assertEquals(testlist, Composer.random(conn))
