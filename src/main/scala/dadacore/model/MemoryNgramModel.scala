@@ -26,8 +26,8 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   /**
    * Evaluate the probability of this word in this context.
    *
-   * @param word
-   * @param context
+   * @param word Word
+   * @param context Context
    * @return
    */
   def prob(word: String, context: Context[String]) = 0.0
@@ -35,8 +35,8 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   /**
    * Evaluate the (negative) log probability of this word in this context.
    *
-   * @param word
-   * @param context
+   * @param word Word
+   * @param context Context
    * @return
    */
   def logprob(word: String, context: Context[String]) = 0.0

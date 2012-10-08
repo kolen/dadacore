@@ -10,8 +10,8 @@ trait Model[Word] {
   /**
    * Evaluate the probability of this word in this context.
    *
-   * @param word
-   * @param context
+   * @param word Word
+   * @param context Context
    * @return
    */
   def prob(word:Word, context:Context[Word]): Double
@@ -19,8 +19,8 @@ trait Model[Word] {
   /**
    * Evaluate the (negative) log probability of this word in this context.
    *
-   * @param word
-   * @param context
+   * @param word Word
+   * @param context Context
    * @return
    */
   def logprob(word:Word, context:Context[Word]): Double
