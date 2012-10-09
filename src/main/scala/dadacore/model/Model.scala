@@ -14,7 +14,7 @@ trait Model[Word] {
    * @param context Context
    * @return
    */
-  def prob(word:Word, context:Context[Word]): Double
+  def prob(word:Word, context:Context): Double
 
   /**
    * Evaluate the (negative) log probability of this word in this context.
@@ -23,7 +23,7 @@ trait Model[Word] {
    * @param context Context
    * @return
    */
-  def logprob(word:Word, context:Context[Word]): Double
+  def logprob(word:Word, context:Context): Double
 
   /**
    * Evaluate the total entropy of a message with respect to the model.
@@ -35,6 +35,4 @@ trait Model[Word] {
   def entropy(text:Seq[Word]): Double
 
   def perplexity(text:Seq[Word]): Double = math.pow(2, entropy(text))
-
-  def next(context:Context[Word]): PossibleNextWords[Word]
 }

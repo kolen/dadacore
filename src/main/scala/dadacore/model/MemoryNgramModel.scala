@@ -30,7 +30,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
    * @param context Context
    * @return
    */
-  def prob(word: String, context: Context[String]) = 0.0
+  def prob(word: String, context: Context) = 0.0
 
   /**
    * Evaluate the (negative) log probability of this word in this context.
@@ -39,7 +39,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
    * @param context Context
    * @return
    */
-  def logprob(word: String, context: Context[String]) = 0.0
+  def logprob(word: String, context: Context) = 0.0
 
   /**
    * Evaluate the total entropy of a message with respect to the model.
@@ -50,7 +50,11 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
    */
   def entropy(text: Seq[String]) = 0.0
 
-  def next(context: Context[String]) = null
+  def next(context: Context) = context match {
+    case ctx:PrefixContext[String] => {
+      dictionary.get(ctx.word_list.toArray)
+    }
+  }
 
   @tailrec
   final def learn(text: Seq[String], learn_sentence: LearnSentence) {
