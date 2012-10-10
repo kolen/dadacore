@@ -4,7 +4,9 @@ import dadacore.learnsource.LearnSentence
 import collection.mutable
 import annotation.tailrec
 
-class MemoryNgramModel (order:Int) extends AppendableModel[String] {
+class MemoryNgramModel (order:Int) extends AppendableModel[String] 
+                                      with ModelWithNext[String] 
+{
   abstract class NextEntry {
     def word: String
     def counts: Long
