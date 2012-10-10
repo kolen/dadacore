@@ -23,3 +23,5 @@ target/
 learnlog.log.*
 *.diff
 target_
+/build.xml
+/nbproject
