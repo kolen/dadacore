@@ -18,10 +18,16 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   case class NextEntryMultiple (word: String, counts: Long, sources: Array[LearnSentence]) extends NextEntry {
     def newOccurenceFromSource(new_source: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
   }
+  
+  class MyNextWordEntrySingleSource (val word:String, val prob:Double, val source:LearnSentence) extends NextWordEntrySingleSource[String] {}
+  
+  class MyNextWordEntryMultipleSource (val word:String, val prob:Double, val sources:Seq[LearnSentence]) extends NextWordEntryMultipleSource[String] {}
 
   class IntegrityError extends Exception
+  
+  object NoNextWords extends PossibleNextWords(List[NextWordEntry[String]]())
 
-  val dictionary = mutable.HashMap[Array[String], Array[NextEntry]]()
+  val dictionary = mutable.HashMap[Seq[String], Seq[NextEntry]]()
 
   /**
    * Evaluate the probability of this word in this context.
@@ -50,9 +56,19 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
    */
   def entropy(text: Seq[String]) = 0.0
 
-  def next(context: Context) = context match {
+  def next(context: Context):PossibleNextWords[String] = context match {
     case ctx:PrefixContext[String] => {
-      dictionary.get(ctx.word_list.toArray)
+      dictionary.get(ctx.word_list) match {
+        case None => NoNextWords
+        case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
+          ne.toSeq.map((e) => e match {
+            case en:NextEntrySingle =>
+              new MyNextWordEntrySingleSource(en.word, 0, en.source) // TODO: prob
+            case en:NextEntryMultiple =>
+              new MyNextWordEntryMultipleSource(en.word, 0, en.sources) // TODO: prob
+          }
+        ))
+      }
     }
   }
 
@@ -65,9 +81,9 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
   }
 
   protected def appendWord(context:Seq[String], word:String, learn_sentence:LearnSentence) {
-    dictionary.put(context.toArray, dictionary.get(context.toArray) match {
+    dictionary.put(context, dictionary.get(context) match {
       case None =>
-        Array(NextEntrySingle(word, 1, learn_sentence))
+        List(NextEntrySingle(word, 1, learn_sentence))
       case Some(next_entries) => {
         val (withword, withoutword) = next_entries.partition((e:NextEntry)=>e.word == word)
         val new_entry:NextEntry = withword.length match {
@@ -75,7 +91,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String] {
           case 1 => withword(0).newOccurenceFromSource(learn_sentence)
           case _ => throw new IntegrityError()
         }
-        (withoutword ++ List(new_entry)).toArray
+        withoutword ++ List(new_entry)
       }
     })
   }

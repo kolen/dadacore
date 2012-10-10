@@ -1,6 +1,6 @@
 package dadacore.model
 
-trait PossibleNextWords[Word] extends Seq[Word] {
-  def randomUniform(): NextWordEntry[Word]
-  def randomModel(): NextWordEntry[Word]
+class PossibleNextWords[Word] (val words:Seq[NextWordEntry[Word]]) {
+  //def randomUniform(): NextWordEntry[Word] TODO: implement randomUniform
+  //def randomModel(): NextWordEntry[Word] TODO: implement randomModel
 }
