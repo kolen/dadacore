@@ -19,10 +19,10 @@ object MemoryNgramModelSpec extends Specification {
       m.learn(sent1, ls1)
       val next = m.next(List("Foo", "bar", "baz"))
       next.words must have length(1)
-      next.words.head.word must_== "quux"
+      next.words.head.word.get must_== "quux"
       val next2 = m.next(List("bar", "baz", "quux"))
       next2.words must have length(1)
-      next2.words.head.word must_== "eggs"
+      next2.words.head.word.get must_== "eggs"
     }
     "Learn with branching" in {
       val m =  new MemoryNgramModel(3)
@@ -30,16 +30,18 @@ object MemoryNgramModelSpec extends Specification {
       m.learn(sent2, ls2)
       val next = m.next(List("bar", "baz", "quux"))
       next.words must have length(2)
-      next.words.map((n)=>n.word).toSet must_== Set("eggs", "moo")
-      
+      next.words flatMap { n => n.word } must contain("eggs", "moo").only
+
       val next2 = m.next(new PrefixContext("Dong bar baz".split(" ")))
       next2.words must have length(1)
-      next2.words.head.word must_== "quux"
+      next2.words.head.word.get must_== "quux"
     }
     "Return end of sentence" in {
       val m =  new MemoryNgramModel(3)
       m.learn(sent1, ls1)
-      val next = m.next(List("bar", "baz", "quux"))
+      val next = m.next(List("quux", "eggs", "."))
+      next.words must have length(1)
+      next.words.head.word must beNone
     }
   }
 }
