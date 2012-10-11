@@ -39,6 +39,10 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
 
   val dictionary = mutable.HashMap[Seq[String], Seq[NextEntry]]()
 
+  val terminatorWord = ""
+  val padLeft = List.fill(order)(terminatorWord)
+  val padRight = List(terminatorWord)
+
   /**
    * Evaluate the probability of this word in this context.
    *
@@ -93,11 +97,9 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
       if (text.length >= order+1) {
         appendWord(text.take(order), text(order), learnSentence)
         learnInner(text.drop(1))
-      } else if (text.length == order) {
-        appendWord(text.take(order), "", learnSentence)
       }
     }
-    learnInner(text)
+    learnInner(padLeft ++ text ++ padRight)
   }
 
   protected def appendWord(context:Seq[String], word:String, learnSentence:LearnSentence) {

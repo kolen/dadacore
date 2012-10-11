@@ -56,8 +56,10 @@ object MemoryNgramModelSpec extends Specification {
     "Return next in context of start of sentence" in {
       val m =  new MemoryNgramModel(3)
       m.learn(sent1, ls1)
-      
-      val next = m.next(Nil)
+      m.learn(sent2, ls2)
+      m.learn(sent3, ls3)
+
+      m.next(List("", "", "")).words map {n=>n.word} must contain ("Foo", "Dong", "Faux").only
     }
   }
 }
