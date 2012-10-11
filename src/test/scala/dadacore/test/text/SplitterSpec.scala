@@ -1,10 +1,10 @@
 package dadacore.test.text
 
+import org.specs2._
 import dadacore.text.Splitter
-import org.junit.{Test,Assert}
-import Assert._
 
-class SplitterTest {
+object SplitterSpec extends Specification {      
+  
   private val text1 = "Чирок-свистунок - будущего нет."
   private val result1 = List("чирок", "-", "свистунок", " - ", "будущего", "нет", ".")
   private val text2 = """
@@ -29,34 +29,14 @@ class SplitterTest {
     "ывсор87ры72оч52", "4", "scывс34соам7a", "."
   )
 
-  @Test
-  def testSplit1() {
-    assertEquals(result1, Splitter.split(text1))
-  }
-
-  @Test
-  def testSplit2() {
-    assertEquals(result2, Splitter.split(text2))
-  }
-
-  @Test
-  def testSplit3() {
-    assertEquals(result3, Splitter.split(text3))
-  }
-
-  @Test
-  def testSplit4() {
-    assertEquals(result4, Splitter.split(text4))
-  }
-
-  @Test
-  def testSpecialCases() {
-    assertEquals(List(), Splitter split "")
-    assertEquals(List(), Splitter split "    ")
-  }
-
-  @Test
-  def testStrange() {
-    assertEquals(List("а", "б", "в"), Splitter split "  а   б в     ")
-  }
+  def is =
+    "Splitter should" ^
+      "Correctly split sample 1" !{ Splitter.split(text1) === result1 }^
+      "Correctly split sample 2" !{ Splitter.split(text2) === result2 }^
+      "Correctly split sample 3" !{ Splitter.split(text3) === result3 }^
+      "Correctly split sample 4" !{ Splitter.split(text4) === result4 }^
+      "Handle empty string"      !{ Splitter.split("") === Nil }^
+      "Handle string of spaces"  !{ Splitter.split("   ") === Nil }^
+      "Handle sparse letters"    !{ Splitter.split("  а   б в     ") === List("а", "б", "в") }^
+  end
 }
