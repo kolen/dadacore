@@ -90,8 +90,6 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
     }
 
   def learn(text: Seq[String], learnSentence: LearnSentence) {
-    // TODO: padding
-
     @tailrec
     def learnInner(text: Seq[String]) {
       if (text.length >= order+1) {
