@@ -3,7 +3,7 @@ package dadacore.model
 import dadacore.learnsource.LearnSentence
 
 trait NextWordEntry[Word] {
-  def word: Option[Word]
+  def word: Word
   def prob: Double
 }
 
