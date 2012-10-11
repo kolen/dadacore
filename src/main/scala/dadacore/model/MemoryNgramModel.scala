@@ -10,15 +10,15 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
   abstract class NextEntry {
     def word: String
     def counts: Long
-    def newOccurenceFromSource(new_source: LearnSentence): NextEntry
+    def newOccurrenceFromSource(new_source: LearnSentence): NextEntry
   }
   case class NextEntrySingle (word: String, counts: Long, source: LearnSentence) extends NextEntry {
-    def newOccurenceFromSource(new_source: LearnSentence) = if
+    def newOccurrenceFromSource(new_source: LearnSentence) = if
       (new_source == source) NextEntrySingle(word, counts+1, source)
       else NextEntryMultiple(word, counts+1, Array(source, new_source))
   }
   case class NextEntryMultiple (word: String, counts: Long, sources: Array[LearnSentence]) extends NextEntry {
-    def newOccurenceFromSource(new_source: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
+    def newOccurrenceFromSource(new_source: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
   }
   
   class MyNextWordEntrySingleSource (
@@ -115,7 +115,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
         val (withword, withoutword) = nextEntries.partition((e:NextEntry)=>e.word == word)
         val newEntry:NextEntry = withword.length match {
           case 0 => NextEntrySingle(wordToStore, 1, learnSentence)
-          case 1 => withword(0).newOccurenceFromSource(learnSentence)
+          case 1 => withword(0).newOccurrenceFromSource(learnSentence)
           case _ => throw new IntegrityError()
         }
         withoutword ++ List(newEntry)
