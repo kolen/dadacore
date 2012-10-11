@@ -7,8 +7,10 @@ import dadacore.learnsource.LearnSentence
 object MemoryNgramModelSpec extends Specification {
   val sent1 = "Foo bar baz quux eggs .".split(" ")
   val sent2 = "Dong bar baz quux moo squeak crack".split(" ")
+  val sent3 = "Faux crecca moo squeak crack sposob".split(" ")
   object ls1 extends LearnSentence {}
   object ls2 extends LearnSentence {}
+  object ls3 extends LearnSentence {}
 
   "MemoryNgramModel" should {
     "Allow to be instantiated" in {
@@ -42,6 +44,14 @@ object MemoryNgramModelSpec extends Specification {
       val next = m.next(List("quux", "eggs", "."))
       next.words must have length(1)
       next.words.head.word must beNone
+    }
+    "Branch at end of sentence" in {
+      val m =  new MemoryNgramModel(3)
+      m.learn(sent2, ls2)
+      m.learn(sent3, ls3)
+      
+      val next = m.next("moo squeak crack".split(" "))
+      next.words map { n => n.word } must contain (Some("sposob"), None)
     }
   }
 }
