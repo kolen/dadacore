@@ -112,13 +112,13 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
       case None =>
         List(NextEntrySingle(wordToStore, 1, learnSentence))
       case Some(nextEntries) => {
-        val (withword, withoutword) = nextEntries.partition((e:NextEntry)=>e.word == word)
-        val newEntry:NextEntry = withword.length match {
+        val (withWord, withoutWord) = nextEntries.partition((e:NextEntry)=>e.word == word)
+        val newEntry:NextEntry = withWord.length match {
           case 0 => NextEntrySingle(wordToStore, 1, learnSentence)
-          case 1 => withword(0).newOccurrenceFromSource(learnSentence)
+          case 1 => withWord(0).newOccurrenceFromSource(learnSentence)
           case _ => throw new IntegrityError()
         }
-        withoutword ++ List(newEntry)
+        withoutWord ++ List(newEntry)
       }
     })
   }
