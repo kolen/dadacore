@@ -58,21 +58,18 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
    */
   def entropy(text: Seq[String]) = 0.0
 
-  def next(context: Context):PossibleNextWords[String] = context match {
-    case ctx:PrefixContext[String] => {
-      dictionary.get(ctx.word_list) match {
-        case None => NoNextWords
-        case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
-          ne.toSeq.map((e) => e match {
-            case en:NextEntrySingle =>
-              new MyNextWordEntrySingleSource(en.word, 0, en.source) // TODO: prob
-            case en:NextEntryMultiple =>
-              new MyNextWordEntryMultipleSource(en.word, 0, en.sources) // TODO: prob
-          }
-        ))
-      }
+  def next(context: PrefixContext[String]) = 
+    dictionary.get(context.word_list) match {
+      case None => NoNextWords
+      case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
+        ne.toSeq.map((e) => e match {
+          case en:NextEntrySingle =>
+            new MyNextWordEntrySingleSource(en.word, 0, en.source) // TODO: prob
+          case en:NextEntryMultiple =>
+            new MyNextWordEntryMultipleSource(en.word, 0, en.sources) // TODO: prob
+        }
+      ))
     }
-  }
 
   @tailrec
   final def learn(text: Seq[String], learn_sentence: LearnSentence) {

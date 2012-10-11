@@ -9,5 +9,7 @@ trait ModelWithNext[Word] {
   /**
    * Return all possible next words, with probabilities, in given context.
    */
-  def next(context: Context):PossibleNextWords[Word]
+  def next(context: PrefixContext[Word]):PossibleNextWords[Word]
+  def next(context: Seq[Word]):PossibleNextWords[Word] =
+    next(new PrefixContext[Word](context))
 }
