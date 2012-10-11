@@ -5,7 +5,7 @@ import collection.mutable
 import annotation.tailrec
 
 class MemoryNgramModel (order:Int) extends AppendableModel[String] 
-                                      with ModelWithNext[String] 
+                                      with ModelWithNext[String]
 {
   abstract class NextEntry {
     def word: String
@@ -38,6 +38,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
   object NoNextWords extends PossibleNextWords(List[NextWordEntry[String]]())
 
   val dictionary = mutable.HashMap[Seq[String], Seq[NextEntry]]()
+  val startingNgrams = mutable.HashMap[Seq[String], Long]()
 
   /**
    * Evaluate the probability of this word in this context.
@@ -66,33 +67,42 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
    */
   def entropy(text: Seq[String]) = 0.0
 
-  def next(context: PrefixContext[String]) = 
-    dictionary.get(context.word_list) match {
-      case None => NoNextWords
-      case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
-        ne.toSeq.map((e) => e match {
-          case en:NextEntrySingle =>
-            new MyNextWordEntrySingleSource(
-              if (en.word != "") Some(en.word) else None, 
-              0, // TODO: prob
-              en.source)
-          case en:NextEntryMultiple =>
-            new MyNextWordEntryMultipleSource(
-              if (en.word != "") Some(en.word) else None,
-              0, // TODO: prob
-              en.sources)
-        }
-      ))
-    }
+  def next(context: Context) = context match {
+    case context: PrefixContext[String] =>
+      dictionary.get(context.word_list) match {
+        case None => NoNextWords
+        case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
+          ne.toSeq.map((e) => e match {
+            case en:NextEntrySingle =>
+              new MyNextWordEntrySingleSource(
+                if (en.word != "") Some(en.word) else None,
+                0, // TODO: prob
+                en.source)
+            case en:NextEntryMultiple =>
+              new MyNextWordEntryMultipleSource(
+                if (en.word != "") Some(en.word) else None,
+                0, // TODO: prob
+                en.sources)
+          }
+        ))
+      }
+    case StartOfSentenceContext => null
+    case _ => throw new IllegalArgumentException("Such context is not supported")
+  }
+  
+  def learn(text: Seq[String], learnSentence: LearnSentence) {
+    appendWordsAtStart(text.take(order), learnSentence)
 
-  @tailrec
-  final def learn(text: Seq[String], learnSentence: LearnSentence) {
-    if (text.length >= order+1) {
-      appendWord(text.take(order), Some(text(order)), learnSentence)
-      learn(text.drop(1), learnSentence)
-    } else if (text.length == order) {
-      appendWord(text.take(order), None, learnSentence)
+    @tailrec
+    def learnInner(text: Seq[String]) {
+      if (text.length >= order+1) {
+        appendWord(text.take(order), Some(text(order)), learnSentence)
+        learnInner(text.drop(1))
+      } else if (text.length == order) {
+        appendWord(text.take(order), None, learnSentence)
+      }
     }
+    learnInner(text)
   }
 
   protected def appendWord(context:Seq[String], word:Option[String], learnSentence:LearnSentence) {
@@ -111,5 +121,12 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
         withoutword ++ List(newEntry)
       }
     })
+  }
+
+  protected def appendWordsAtStart(words: Seq[String], learnSentence: LearnSentence) {
+    startingNgrams.put(words, startingNgrams.get(words) match {
+        case None => 1
+        case Some(i:Long) => i+1
+      })
   }
 }

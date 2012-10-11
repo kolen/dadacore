@@ -53,5 +53,11 @@ object MemoryNgramModelSpec extends Specification {
       val next = m.next("moo squeak crack".split(" "))
       next.words map { n => n.word } must contain (Some("sposob"), None)
     }
+    "Return next in context of start of sentence" in {
+      val m =  new MemoryNgramModel(3)
+      m.learn(sent1, ls1)
+      
+      val next = m.next(StartOfSentenceContext)
+    }
   }
 }
