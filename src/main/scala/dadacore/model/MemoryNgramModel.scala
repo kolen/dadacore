@@ -5,7 +5,7 @@ import collection.mutable
 import annotation.tailrec
 
 class MemoryNgramModel (order:Int) extends AppendableModel[String] 
-                                      with ModelWithNext[String] 
+                                      with ModelWithNext[String]
 {
   abstract class NextEntry {
     def word: String
@@ -21,15 +21,24 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
     def newOccurenceFromSource(new_source: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
   }
   
-  class MyNextWordEntrySingleSource (val word:String, val prob:Double, val source:LearnSentence) extends NextWordEntrySingleSource[String] {}
-  
-  class MyNextWordEntryMultipleSource (val word:String, val prob:Double, val sources:Seq[LearnSentence]) extends NextWordEntryMultipleSource[String] {}
+  class MyNextWordEntrySingleSource (
+      val word:Option[String],
+      val prob:Double,
+      val source:LearnSentence)
+    extends NextWordEntrySingleSource[String] {}
+
+  class MyNextWordEntryMultipleSource (
+      val word:Option[String],
+      val prob:Double,
+      val sources:Seq[LearnSentence])
+    extends NextWordEntryMultipleSource[String] {}
 
   class IntegrityError extends Exception
   
   object NoNextWords extends PossibleNextWords(List[NextWordEntry[String]]())
 
   val dictionary = mutable.HashMap[Seq[String], Seq[NextEntry]]()
+  val startingNgrams = mutable.HashMap[Seq[String], Long]()
 
   /**
    * Evaluate the probability of this word in this context.
@@ -58,43 +67,66 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
    */
   def entropy(text: Seq[String]) = 0.0
 
-  def next(context: Context):PossibleNextWords[String] = context match {
-    case ctx:PrefixContext[String] => {
-      dictionary.get(ctx.word_list) match {
+  def next(context: Context) = context match {
+    case context: PrefixContext[String] =>
+      dictionary.get(context.word_list) match {
         case None => NoNextWords
         case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
           ne.toSeq.map((e) => e match {
             case en:NextEntrySingle =>
-              new MyNextWordEntrySingleSource(en.word, 0, en.source) // TODO: prob
+              new MyNextWordEntrySingleSource(
+                if (en.word != "") Some(en.word) else None,
+                0, // TODO: prob
+                en.source)
             case en:NextEntryMultiple =>
-              new MyNextWordEntryMultipleSource(en.word, 0, en.sources) // TODO: prob
+              new MyNextWordEntryMultipleSource(
+                if (en.word != "") Some(en.word) else None,
+                0, // TODO: prob
+                en.sources)
           }
         ))
       }
+    case StartOfSentenceContext => null
+    case _ => throw new IllegalArgumentException("Such context is not supported")
+  }
+  
+  def learn(text: Seq[String], learnSentence: LearnSentence) {
+    appendWordsAtStart(text.take(order), learnSentence)
+
+    @tailrec
+    def learnInner(text: Seq[String]) {
+      if (text.length >= order+1) {
+        appendWord(text.take(order), Some(text(order)), learnSentence)
+        learnInner(text.drop(1))
+      } else if (text.length == order) {
+        appendWord(text.take(order), None, learnSentence)
+      }
     }
+    learnInner(text)
   }
 
-  @tailrec
-  final def learn(text: Seq[String], learn_sentence: LearnSentence) {
-    if (text.length >= order+1) {
-      appendWord(text.take(order), text(order), learn_sentence)
-      learn(text.drop(1), learn_sentence)
-    }
-  }
-
-  protected def appendWord(context:Seq[String], word:String, learn_sentence:LearnSentence) {
+  protected def appendWord(context:Seq[String], word:Option[String], learnSentence:LearnSentence) {
+    if (word.isDefined && word.get == "") throw new IllegalArgumentException("Word cannot be empty string")
+    val wordToStore = word getOrElse ""
     dictionary.put(context, dictionary.get(context) match {
       case None =>
-        List(NextEntrySingle(word, 1, learn_sentence))
-      case Some(next_entries) => {
-        val (withword, withoutword) = next_entries.partition((e:NextEntry)=>e.word == word)
-        val new_entry:NextEntry = withword.length match {
-          case 0 => NextEntrySingle(word, 1, learn_sentence)
-          case 1 => withword(0).newOccurenceFromSource(learn_sentence)
+        List(NextEntrySingle(wordToStore, 1, learnSentence))
+      case Some(nextEntries) => {
+        val (withword, withoutword) = nextEntries.partition((e:NextEntry)=>e.word == word)
+        val newEntry:NextEntry = withword.length match {
+          case 0 => NextEntrySingle(wordToStore, 1, learnSentence)
+          case 1 => withword(0).newOccurenceFromSource(learnSentence)
           case _ => throw new IntegrityError()
         }
-        withoutword ++ List(new_entry)
+        withoutword ++ List(newEntry)
       }
     })
+  }
+
+  protected def appendWordsAtStart(words: Seq[String], learnSentence: LearnSentence) {
+    startingNgrams.put(words, startingNgrams.get(words) match {
+        case None => 1
+        case Some(i:Long) => i+1
+      })
   }
 }

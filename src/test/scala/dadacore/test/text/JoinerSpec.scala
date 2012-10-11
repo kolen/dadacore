@@ -1,23 +1,18 @@
 package dadacore.test.text
 
-import org.junit.{Test,Assert}
-import Assert._
+import org.specs2._
 import dadacore.text.Joiner
 
-class JoinerTest {
+object JoinerSpec extends Specification {
   private val list1 = List("чирок", "-", "свистунок", " - ", "будущего", "нет", ".")
   private val joined1 = "Чирок-свистунок - будущего нет."
 
   private val list2 = List("драм", "это", "ненапряжная", "музыка", ", ", "простая", "для", "мозга")
   private val joined2 = "Драм это ненапряжная музыка, простая для мозга."
 
-  @Test
-  def testJoin1() {
-    assertEquals(joined1, Joiner.join(list1))
-  }
-
-  @Test
-  def testJoin2() {
-    assertEquals(joined2, Joiner.join(list2))
-  }
+  def is =
+    "Joiner should " ^
+      "Join sample 1" !{ Joiner.join(list1) === joined1 }^
+      "Join sample 2" !{ Joiner.join(list2) === joined2 }^
+    end  
 }

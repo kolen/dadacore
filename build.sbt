@@ -19,10 +19,5 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "org.specs2" %% "specs2" % "1.12.1" % "test"
 
-libraryDependencies += "junit" % "junit" % "4.10" % "test"
-
-// Possibly need to move to more scala-ish test framework
-libraryDependencies += "com.novocode" % "junit-interface" % "0.8" % "test->default"
-
 resolvers ++= Seq("snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
                   "releases"  at "http://oss.sonatype.org/content/repositories/releases")

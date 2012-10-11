@@ -1,6 +1,6 @@
 package dadacore.model
 
 trait NextWordEntry[Word] {
-  def word: Word
+  def word: Option[Word]
   def prob: Double
 }
