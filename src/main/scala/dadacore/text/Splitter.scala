@@ -18,5 +18,5 @@ object Splitter {
       } else {
         word_fixer.replaceAllIn(m.group(2), " ")
       }
-    ).filter(x => x.trim != "").toList
+    ).toList
 }
