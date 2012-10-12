@@ -5,7 +5,7 @@ import util.matching.Regex
 object Joiner {
   private val sentence_end_regex = new Regex("[?!.\u2026]")
 
-  def join(words:List[String]):String = {
+  def join(words:Seq[String]):String = {
     val out = new StringBuilder()
     var last_was_end_of_sentence = true
     var last_was_word = false

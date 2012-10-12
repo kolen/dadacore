@@ -25,9 +25,9 @@ trait WordState extends AvailableNextState {
 trait StorageConnection {
   def is_newly_created: Boolean
   def starting_state: StartingState
-  def lookupState(words: List[String]): Option[State]
+  def lookupState(words: Seq[String]): Option[State]
 
-  def markChain(words: List[String])
+  def markChain(words: Seq[String])
 
   /**
    * Order of markov model. Currently only 3 is supported.

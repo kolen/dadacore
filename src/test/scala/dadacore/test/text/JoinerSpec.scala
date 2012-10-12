@@ -4,10 +4,10 @@ import org.specs2._
 import dadacore.text.Joiner
 
 object JoinerSpec extends Specification {
-  private val list1 = List("чирок", "-", "свистунок", " - ", "будущего", "нет", ".")
+  private val list1 =  "чирок|-|свистунок| - |будущего| |нет|.|".split("|")
   private val joined1 = "Чирок-свистунок - будущего нет."
 
-  private val list2 = List("драм", "это", "ненапряжная", "музыка", ", ", "простая", "для", "мозга")
+  private val list2 = "драм| |это| |ненапряжная| |музыка|, |простая| |для| |мозга|.|".split("|")
   private val joined2 = "Драм это ненапряжная музыка, простая для мозга."
 
   def is =

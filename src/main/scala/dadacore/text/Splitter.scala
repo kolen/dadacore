@@ -11,7 +11,7 @@ object Splitter {
 
   private val word_fixer = new Regex("\\s{2,}")
 
-  def split(text:String): List[String] =
+  def split(text:String): Seq[String] =
     word_matcher.findAllIn(text.trim).matchData.map( m =>
       if (m.group(1) != null) {
         m.group(1).toLowerCase

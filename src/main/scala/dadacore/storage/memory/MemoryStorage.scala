@@ -29,17 +29,17 @@ object MemoryStorage extends Storage {
       }
     }
 
-    def lookupState(words: List[String]):Option[State] = {
+    def lookupState(words: Seq[String]):Option[State] = {
       if (words.length != order) {
         throw new IllegalArgumentException("List must contain "+order+" words (same as model order)")
       }
-      entries.contains(words) match {
-        case true => new Some(new MemoryStorageWordState(words))
+      entries.contains(words.toList) match {
+        case true => new Some(new MemoryStorageWordState(words.toList))
         case false => None
       }
     }
 
-    def markChain(words: List[String]) {
+    def markChain(words: Seq[String]) {
       if (words.length < order) {
         throw new IllegalArgumentException("Length of mark chain must be at least model order="+order)
       }
@@ -67,11 +67,12 @@ object MemoryStorage extends Storage {
         }
       }
 
-      root.add(words.take(order))
+      val wl = words.toList
+      root.add(wl.take(order))
       if (words.length != order) { // if only equals to order, just mark trans start -> word -> end, not word -> word
-        markWordTransitions(words)
+        markWordTransitions(wl)
       }
-      getOrCreateEntry(words.takeRight(order)).add(None)
+      getOrCreateEntry(wl.takeRight(order)).add(None)
     }
 
     def is_newly_created = true
