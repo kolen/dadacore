@@ -25,16 +25,16 @@ object SplitterSpec extends Specification {
     Блоггерка nordica1488 слушала current93 в 12:00 и у нее произошел ывсоР87рЫ72оч52 4 scывс34соам7a.
     """
   private val result4 = ("блоггерка| |nordica1488| |слушала| |current93| |в| |12|:|00| |и| |у| |нее| |произошел|" +
-      " |ывсоР87рЫ72оч52| |4| |scывс34соам7a|.").split('|')
+      " |ывсор87ры72оч52| |4| |scывс34соам7a|.").split('|')
 
   def is =
     "Splitter should" ^
-      "Correctly split sample 1" !{ Splitter.split(text1) === result1 }^
+      "Correctly split sample 1" !{ Splitter.split(text1) ==== result1 }^
       //"Correctly split sample 2" !{ Splitter.split(text2) === result2 }^
-      "Correctly split sample 3" !{ Splitter.split(text3) === result3 }^
-      "Correctly split sample 4" !{ Splitter.split(text4) === result4 }^
-      "Handle empty string"      !{ Splitter.split("") === Nil }^
-      "Handle string of spaces"  !{ Splitter.split("   ") === Nil }^
-      "Handle sparse letters"    !{ Splitter.split("  а   б в     ") === List("а", "б", "в") }^
+      "Correctly split sample 3" !{ Splitter.split(text3) ==== result3 }^
+      "Correctly split sample 4" !{ Splitter.split(text4) ==== result4 }^
+      "Handle empty string"      !{ Splitter.split("") ==== Nil }^
+      "Handle string of spaces"  !{ Splitter.split("   ") ==== Nil }^
+      "Handle sparse letters"    !{ Splitter.split("  а   б в     ") ==== List("а", "б", "в") }^
   end
 }
