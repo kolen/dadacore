@@ -35,6 +35,6 @@ object SplitterSpec extends Specification {
       "Correctly split sample 4" !{ Splitter.split(text4) ==== result4 }^
       "Handle empty string"      !{ Splitter.split("") ==== Nil }^
       "Handle string of spaces"  !{ Splitter.split("   ") ==== Nil }^
-      "Handle sparse letters"    !{ Splitter.split("  а   б в     ") ==== List("а", "б", "в") }^
+      "Handle sparse letters"    !{ Splitter.split("  а   б в     ") ==== "а| |б| |в".split('|') }^
   end
 }
