@@ -74,7 +74,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
     dictionary.get(context) match {
       case None => NoNextWords
       case Some(ne:Seq[NextEntry]) => new PossibleNextWords(
-        ne.toSeq.map((e) => e match {
+        ne.toSeq.map(e => e match {
           case en:NextEntrySingle =>
             new MyNextWordEntrySingleSource(
               en.word,
