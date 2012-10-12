@@ -35,7 +35,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
 
   class IntegrityError extends Exception
   
-  object NoNextWords extends PossibleNextWords(List[NextWordEntry[String]]())
+  object NoNextWords extends PossibleNextWords(Vector[NextWordEntry[String]]())
 
   val dictionary = mutable.HashMap[Seq[String], Seq[NextEntry]]()
 
@@ -86,7 +86,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
               0, // TODO: prob
               en.sources)
         }
-      ))
+      ).toIndexedSeq)
     }
 
   def learn(text: Seq[String], learnSentence: LearnSentence) {
