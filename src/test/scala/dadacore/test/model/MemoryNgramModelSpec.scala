@@ -67,5 +67,12 @@ object MemoryNgramModelSpec extends Specification {
 
       m.generateRandom().map {w=>w.word} ==== sent1
     }
+    "Learn with short sentences" in {
+      val m =  new MemoryNgramModel(3)
+      m.learn(List("short", "sentence"), ls1)
+      m.next(List("", "", "")).words.map(n=>n.word) ==== Vector("short")
+      m.next(List("", "", "short")).words.map(n=>n.word) ==== Vector("sentence")
+      m.next(List("", "short", "sentence")).words.map(n=>n.word) ==== Vector("")
+    }
   }
 }
