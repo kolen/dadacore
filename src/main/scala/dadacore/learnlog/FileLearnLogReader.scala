@@ -15,8 +15,8 @@ class FileLearnLogReader(filename:String) extends LearnLogReader {
 
   private def parseLine(line:String): LearnLogElement =
     line.split(" ", 4).toList match {
-      case List(datestr, user, source, text) =>
-        val date = date_format.parse(datestr)
+      case List(dateString, user, source, text) =>
+        val date = date_format.parse(dateString)
         new LearnLogElement(date, user, source, text)
       case _ => throw new LearnLogInvalidLineException(line)
     }
