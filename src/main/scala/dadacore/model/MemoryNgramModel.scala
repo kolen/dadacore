@@ -47,6 +47,7 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
   val terminatorWord = ""
   val padLeft = List.fill(order)(terminatorWord)
   val padRight = List(terminatorWord)
+  val startingContext = padLeft
 
   /**
    * Evaluate the probability of this word in this context.
@@ -119,5 +120,18 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
         withoutWord ++ List(newEntry)
       }
     })
+  }
+
+  def generateRandom():Seq[String] = {
+    @tailrec
+    def generate(context: List[String], existing: Vector[String]=Vector()):Seq[String] = {
+      val n = next(context).randomUniform()
+      if (n.word != "") {
+        generate(context.drop(1) :+ n.word, existing :+ n.word)
+      } else {
+        existing
+      }
+    }
+    generate(startingContext)
   }
 }

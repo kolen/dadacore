@@ -61,5 +61,11 @@ object MemoryNgramModelSpec extends Specification {
 
       m.next(List("", "", "")).words map {n=>n.word} must contain ("Foo", "Dong", "Faux").only
     }
+    "Generate random sentence" in {
+      val m =  new MemoryNgramModel(3)
+      m.learn(sent1, ls1)
+
+      m.generateRandom() ==== sent1
+    }
   }
 }
