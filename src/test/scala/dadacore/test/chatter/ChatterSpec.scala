@@ -5,9 +5,9 @@ import org.specs2.mock._
 import dadacore.learnlog._
 import java.util.Date
 import dadacore.learnsource.{LearnSentence, LearnSourceStore}
-import dadacore.chatter.{GeneratedSentence, Chatter}
+import dadacore.chatter.Chatter
 import dadacore.model._
-import dadacore.text.{Joiner, Splitter, RegularJoiner, RegularSplitter}
+import dadacore.text.{Joiner, Splitter}
 import dadacore.learnlog.LearnLogElement
 
 object ChatterSpec extends Specification with Mockito {
