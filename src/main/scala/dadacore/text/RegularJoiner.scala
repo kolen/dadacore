@@ -2,7 +2,7 @@ package dadacore.text
 
 import util.matching.Regex
 
-object RegularJoiner {
+object RegularJoiner extends Joiner {
   private val sentence_end_regex = new Regex("[?!.\u2026]")
 
   def join(words:Seq[String]):String = {
