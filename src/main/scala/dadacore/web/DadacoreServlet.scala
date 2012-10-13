@@ -1,11 +1,8 @@
 package dadacore.web
 
 import org.scalatra.ScalatraServlet
-import dadacore.brain.Brain
 
 class DadacoreServlet extends ScalatraServlet {
-  val brain = new Brain
-
   get("/") {
     contentType = "text/html"
     <html>
@@ -19,7 +16,7 @@ class DadacoreServlet extends ScalatraServlet {
     </form>
     <div>{
       for (i <- 0 until 50) yield
-        <p>{brain.generateRandom}</p>
+        <p>{/*brain.generateRandom*/}</p>
       }
     </div>
     </body>
@@ -29,8 +26,8 @@ class DadacoreServlet extends ScalatraServlet {
   post("/api/learn") {
     val text = request.getParameter("text")
     val lines = text.split("\\s*(\\r|\\n)\\s*")
-    for (line <- lines)
-      brain.learn(line)
+//    for (line <- lines)
+//      brain.learn(line)
     redirect("/")
   }
 }

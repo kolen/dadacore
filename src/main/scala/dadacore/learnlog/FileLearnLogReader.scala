@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.io.FileNotFoundException
 
 class FileLearnLogReader(filename:String) extends LearnLogReader {
+  // TODO: locking
   private val date_format = new SimpleDateFormat("yyyy-MM-dd,hh:mm")
   private var input_iterator:Iterator[String] = null
   try {

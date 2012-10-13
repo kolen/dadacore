@@ -65,7 +65,7 @@ object MemoryNgramModelSpec extends Specification {
       val m =  new MemoryNgramModel(3)
       m.learn(sent1, ls1)
 
-      m.generateRandom() ==== sent1
+      m.generateRandom().map {w=>w.word} ==== sent1
     }
   }
 }

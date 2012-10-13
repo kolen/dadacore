@@ -9,8 +9,7 @@ import annotation.tailrec
  *
  * @param order Order of corresponding Markov model. Size of ngram is order + 1, i.e. if order is 2, it is 3-gram model.
  */
-class MemoryNgramModel (order:Int) extends AppendableModel[String] 
-                                      with ModelWithNext[String]
+class MemoryNgramModel (order:Int) extends AppendableNgramModel[String]
 {
   abstract class NextEntry {
     def word: String
@@ -122,12 +121,12 @@ class MemoryNgramModel (order:Int) extends AppendableModel[String]
     })
   }
 
-  def generateRandom():Seq[String] = {
+  def generateRandom():Seq[NextWordEntry[String]] = {
     @tailrec
-    def generate(context: List[String], existing: Vector[String]=Vector()):Seq[String] = {
+    def generate(context: List[String], existing: Vector[NextWordEntry[String]]=Vector()):Seq[NextWordEntry[String]] = {
       val n = next(context).randomUniform()
       if (n.word != "") {
-        generate(context.drop(1) :+ n.word, existing :+ n.word)
+        generate(context.drop(1) :+ n.word, existing :+ n)
       } else {
         existing
       }
