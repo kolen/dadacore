@@ -1,9 +1,9 @@
 package dadacore.test.text
 
 import org.specs2._
-import dadacore.text.Splitter
+import dadacore.text.RegularSplitter
 
-object SplitterSpec extends Specification {      
+object RegularSplitterSpec extends Specification {
   
   private val text1 = "Чирок-свистунок - будущего нет."
   private val result1 = "чирок|-|свистунок| - |будущего| |нет|.|".split('|')
@@ -28,13 +28,13 @@ object SplitterSpec extends Specification {
       " |ывсор87ры72оч52| |4| |scывс34соам7a|.").split('|')
 
   def is =
-    "Splitter should" ^
-      "Correctly split sample 1" !{ Splitter.split(text1) ==== result1 }^
-      //"Correctly split sample 2" !{ Splitter.split(text2) === result2 }^
-      "Correctly split sample 3" !{ Splitter.split(text3) ==== result3 }^
-      "Correctly split sample 4" !{ Splitter.split(text4) ==== result4 }^
-      "Handle empty string"      !{ Splitter.split("") ==== Nil }^
-      "Handle string of spaces"  !{ Splitter.split("   ") ==== Nil }^
-      "Handle sparse letters"    !{ Splitter.split("  а   б в     ") ==== "а| |б| |в".split('|') }^
+    "RegularSplitter should" ^
+      "Correctly split sample 1" !{ RegularSplitter.split(text1) ==== result1 }^
+      //"Correctly split sample 2" !{ RegularSplitter.split(text2) === result2 }^
+      "Correctly split sample 3" !{ RegularSplitter.split(text3) ==== result3 }^
+      "Correctly split sample 4" !{ RegularSplitter.split(text4) ==== result4 }^
+      "Handle empty string"      !{ RegularSplitter.split("") ==== Nil }^
+      "Handle string of spaces"  !{ RegularSplitter.split("   ") ==== Nil }^
+      "Handle sparse letters"    !{ RegularSplitter.split("  а   б в     ") ==== "а| |б| |в".split('|') }^
   end
 }

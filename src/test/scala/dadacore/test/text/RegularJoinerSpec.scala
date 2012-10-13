@@ -1,9 +1,9 @@
 package dadacore.test.text
 
 import org.specs2._
-import dadacore.text.Joiner
+import dadacore.text.RegularJoiner
 
-object JoinerSpec extends Specification {
+object RegularJoinerSpec extends Specification {
   private val list1 =  "чирок|-|свистунок| - |будущего| |нет|.|".split('|')
   private val joined1 = "Чирок-свистунок - будущего нет."
 
@@ -11,8 +11,8 @@ object JoinerSpec extends Specification {
   private val joined2 = "Драм это ненапряжная музыка, простая для мозга."
 
   def is =
-    "Joiner should " ^
-      "Join sample 1" !{ Joiner.join(list1) === joined1 }^
-      "Join sample 2" !{ Joiner.join(list2) === joined2 }^
+    "RegularJoiner should " ^
+      "Join sample 1" !{ RegularJoiner.join(list1) === joined1 }^
+      "Join sample 2" !{ RegularJoiner.join(list2) === joined2 }^
     end  
 }

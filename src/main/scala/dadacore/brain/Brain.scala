@@ -3,7 +3,7 @@ package dadacore.brain
 import dadacore.storage.memory.MemoryStorage
 import collection.immutable.HashMap
 import dadacore.composer.Composer
-import dadacore.text.{Joiner, Splitter}
+import dadacore.text.{RegularJoiner, RegularSplitter}
 import dadacore.learnlog.{LearnLogNoSuchLogError, FileLearnLogWriter, FileLearnLogReader}
 
 // TODO: add config
@@ -29,7 +29,7 @@ class Brain {
   }
 
   private def learn_to_model(text:String):Boolean = {
-    val words = Splitter.split(text)
+    val words = RegularSplitter.split(text)
     if (words.length >= conn.order) {
       conn.markChain(words)
       true
@@ -40,7 +40,7 @@ class Brain {
 
   def generateRandom:String = {
     val words = Composer.random(conn)
-    Joiner.join(words)
+    RegularJoiner.join(words)
   }
 
   def replayLog(filename: String) {

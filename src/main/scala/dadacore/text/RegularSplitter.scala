@@ -2,7 +2,7 @@ package dadacore.text
 
 import scala.util.matching.Regex
 
-object Splitter {
+object RegularSplitter {
   private val word_matcher = new Regex("""(?mxs:
     ([\p{L}\p{N}]+)  # word
     |
