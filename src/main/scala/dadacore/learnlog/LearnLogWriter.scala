@@ -9,5 +9,5 @@ trait LearnLogWriter {
   def write(date:Date, user:String, source:String, text:String) {
     write(new LearnLogElement(date, user, source, text))
   }
-  def write(log_element:LearnLogElement)
+  def write(logElement:LearnLogElement)
 }

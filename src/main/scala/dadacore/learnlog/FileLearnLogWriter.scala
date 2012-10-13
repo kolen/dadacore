@@ -8,18 +8,18 @@ class FileLearnLogWriter(filename: String) extends LearnLogWriter {
   val stream = new FileOutputStream(filename, true)
   val writer = new BufferedWriter(
     new OutputStreamWriter(stream, Charset.forName("UTF-8")))
-  val date_formatter = new SimpleDateFormat("yyyy-MM-dd,hh:mm")
+  val dateFormatter = new SimpleDateFormat("yyyy-MM-dd,hh:mm")
 
-  def write(log_element: LearnLogElement) {
-    val modified_text = log_element.text.replaceAll("\\s+", " ")
+  def write(logElement: LearnLogElement) {
+    val modifiedText = logElement.text.replaceAll("\\s+", " ")
     val lock = stream.getChannel.lock()
     try {
       writer.write(
         List(
-          date_formatter.format(log_element.date),
-          log_element.user,
-          log_element.source,
-          modified_text
+          dateFormatter.format(logElement.date),
+          logElement.user,
+          logElement.source,
+          modifiedText
         ).mkString("", " ", "\n")
       )
       writer.flush()

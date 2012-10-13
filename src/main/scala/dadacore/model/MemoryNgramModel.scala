@@ -14,15 +14,15 @@ class MemoryNgramModel (order:Int) extends AppendableNgramModel[String]
   abstract class NextEntry {
     def word: String
     def counts: Long
-    def newOccurrenceFromSource(new_source: LearnSentence): NextEntry
+    def newOccurrenceFromSource(newSource: LearnSentence): NextEntry
   }
   case class NextEntrySingle (word: String, counts: Long, source: LearnSentence) extends NextEntry {
-    def newOccurrenceFromSource(new_source: LearnSentence) = if
-      (new_source == source) NextEntrySingle(word, counts+1, source)
-      else NextEntryMultiple(word, counts+1, Array(source, new_source))
+    def newOccurrenceFromSource(newSource: LearnSentence) = if
+      (newSource == source) NextEntrySingle(word, counts+1, source)
+      else NextEntryMultiple(word, counts+1, Array(source, newSource))
   }
   case class NextEntryMultiple (word: String, counts: Long, sources: Array[LearnSentence]) extends NextEntry {
-    def newOccurrenceFromSource(new_source: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
+    def newOccurrenceFromSource(newSource: LearnSentence) = NextEntryMultiple(word, counts+1, sources)
   }
   
   class MyNextWordEntrySingleSource (

@@ -12,14 +12,14 @@ object MemoryStorage extends Storage {
     private val entries = new HashMap[StateWords, NextEntriesSet]()
     private val root = new HashSet[StateWords] ()
 
-    object starting_state extends StartingState {
-      def next_all = root.toList.map(strs => new MemoryStorageWordState(strs))
+    object startingState extends StartingState {
+      def nextAll = root.toList.map(strs => new MemoryStorageWordState(strs))
     }
     private object ending_state extends EndingState
 
     class MemoryStorageWordState (raw_words: StateWords) extends WordState  {
       def words = raw_words.toList
-      def next_all = entries.get(raw_words) match {
+      def nextAll = entries.get(raw_words) match {
         case Some(set) => set.toList.map(
           st => st match {
             case Some(x) => new MemoryStorageWordState(x)
@@ -75,7 +75,7 @@ object MemoryStorage extends Storage {
       getOrCreateEntry(wl.takeRight(order)).add(None)
     }
 
-    def is_newly_created = true
+    def isNewlyCreated = true
   }
 
   def connect(params: Map[String, String]) = new MemoryStorageConnection()

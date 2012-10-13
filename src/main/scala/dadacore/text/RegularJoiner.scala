@@ -3,31 +3,31 @@ package dadacore.text
 import util.matching.Regex
 
 object RegularJoiner extends Joiner {
-  private val sentence_end_regex = new Regex("[?!.\u2026]")
+  private val sentenceEndRegex = new Regex("[?!.\u2026]")
 
   def join(words:Seq[String]):String = {
     // TODO: rewrite, some code left from times when joiner added spaces between words
     val out = new StringBuilder()
-    var last_was_end_of_sentence = true
+    var lastWasEndOfSentence = true
     for (word <- words) {
       if (word.charAt(0).isLetterOrDigit) {
-        if (last_was_end_of_sentence) {
+        if (lastWasEndOfSentence) {
           out append word.charAt(0).toUpper
           out append word.substring(1)
         } else {
           out append word
         }
 
-        last_was_end_of_sentence = false
+        lastWasEndOfSentence = false
       } else {
         // punctuation chars
         out append word
 
-        last_was_end_of_sentence = sentence_end_regex.findFirstIn(word).isDefined
+        lastWasEndOfSentence = sentenceEndRegex.findFirstIn(word).isDefined
       }
     }
 
-    if (!last_was_end_of_sentence)
+    if (!lastWasEndOfSentence)
       out append '.'
 
     out.toString()

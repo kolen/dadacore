@@ -13,8 +13,8 @@ class DatabaseError extends Exception
 
 trait State
 trait AvailableNextState extends State {
-  def next_all: List[State]
-  def next_random: State = Random.shuffle(next_all).head
+  def nextAll: List[State]
+  def nextRandom: State = Random.shuffle(nextAll).head
 }
 trait StartingState extends AvailableNextState
 trait EndingState extends State
@@ -23,8 +23,8 @@ trait WordState extends AvailableNextState {
 }
 
 trait StorageConnection {
-  def is_newly_created: Boolean
-  def starting_state: StartingState
+  def isNewlyCreated: Boolean
+  def startingState: StartingState
   def lookupState(words: Seq[String]): Option[State]
 
   def markChain(words: Seq[String])

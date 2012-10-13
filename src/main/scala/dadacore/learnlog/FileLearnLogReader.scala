@@ -5,10 +5,10 @@ import java.io.FileNotFoundException
 
 class FileLearnLogReader(filename:String) extends LearnLogReader {
   // TODO: locking
-  private val date_format = new SimpleDateFormat("yyyy-MM-dd,hh:mm")
-  private var input_iterator:Iterator[String] = null
+  private val dateFormat = new SimpleDateFormat("yyyy-MM-dd,hh:mm")
+  private var inputIterator:Iterator[String] = null
   try {
-    input_iterator = io.Source.fromFile(filename, "UTF-8").getLines()
+    inputIterator = io.Source.fromFile(filename, "UTF-8").getLines()
   } catch {
     case e:FileNotFoundException => throw new LearnLogNoSuchLogError(filename)
   }
@@ -16,11 +16,11 @@ class FileLearnLogReader(filename:String) extends LearnLogReader {
   private def parseLine(line:String): LearnLogElement =
     line.split(" ", 4).toList match {
       case List(dateString, user, source, text) =>
-        val date = date_format.parse(dateString)
+        val date = dateFormat.parse(dateString)
         new LearnLogElement(date, user, source, text)
       case _ => throw new LearnLogInvalidLineException(line)
     }
 
-  def hasNext = input_iterator.hasNext
-  def next() = parseLine(input_iterator.next())
+  def hasNext = inputIterator.hasNext
+  def next() = parseLine(inputIterator.next())
 }
