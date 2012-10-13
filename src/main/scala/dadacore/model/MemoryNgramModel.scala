@@ -4,6 +4,11 @@ import dadacore.learnsource.LearnSentence
 import collection.mutable
 import annotation.tailrec
 
+/**
+ * In-memory n-gram model with possibility to add n-grams dynamically.
+ *
+ * @param order Order of corresponding Markov model. Size of ngram is order + 1, i.e. if order is 2, it is 3-gram model.
+ */
 class MemoryNgramModel (order:Int) extends AppendableModel[String] 
                                       with ModelWithNext[String]
 {
