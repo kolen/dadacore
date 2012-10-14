@@ -1,5 +1,8 @@
 package dadacore.learnlog
 
+/** LearnLogManager used to manage [[dadacore.learnlog.LearnLogReader]]s and [[dadacore.learnlog.LearnLogWriter]]s
+  * used to initialize model initially and for subsequent writing new text to the same log.
+  */
 trait LearnLogManager {
   /**
    * Return reader to read all learn log from starting

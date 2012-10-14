@@ -6,11 +6,10 @@ import annotation.tailrec
 import com.google.inject.Inject
 import com.google.inject.name.Named
 
-/**
- * In-memory n-gram model with possibility to add n-grams dynamically.
- *
- * @param order Order of corresponding Markov model. Size of ngram is order + 1, i.e. if order is 2, it is 3-gram model.
- */
+/** In-memory n-gram model of [[java.lang.String]] words with possibility to add n-grams dynamically.
+  *
+  * @param order Order of corresponding Markov model. Size of ngram is order + 1, i.e. if order is 2, it is 3-gram model.
+  */
 class MemoryNgramModel @Inject() (@Named("ngram model order") order:Int) extends AppendableNgramModel[String]
 {
   abstract class NextEntry {

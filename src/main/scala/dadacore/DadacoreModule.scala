@@ -7,6 +7,7 @@ import model.{MemoryNgramModel, AppendableNgramModel}
 import com.google.inject.name.Names
 import text.{RegularSplitter, Splitter, Joiner, RegularJoiner}
 
+/** Main Dadacore module describing interface bindings */
 class DadacoreModule extends AbstractModule {
   def configure() {
     bind(classOf[Joiner]).toInstance(RegularJoiner)

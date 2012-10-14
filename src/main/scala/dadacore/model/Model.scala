@@ -1,11 +1,10 @@
 package dadacore.model
 
-/**
- * A probabilistic model predicting probability that word occurs after
- * given sequence of words.
- *
- * @tparam Word Type for words in this model
- */
+/** A probabilistic model predicting probability that word occurs after
+  * given sequence of words.
+  *
+  * @tparam Word Type for words in this model, i.e. [[java.lang.String]].
+  */
 trait Model[Word] {
   /**
    * Evaluate the probability of this word in this context.
