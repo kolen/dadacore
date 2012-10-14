@@ -126,9 +126,11 @@ class MemoryNgramModel @Inject() (@Named("ngram model order") order:Int) extends
   def generateRandom():Seq[NextWordEntry[String]] = {
     @tailrec
     def generate(context: List[String], existing: Vector[NextWordEntry[String]]=Vector()):Seq[NextWordEntry[String]] = {
-      val n = next(context).randomUniform()
-      if (n.word != "") {
-        generate(context.drop(1) :+ n.word, existing :+ n)
+      val n = next(context)
+      if (n.words.length == 0) { throw new ModelIsEmptyException }
+      val r = n.randomUniform()
+      if (r.word != "") {
+        generate(context.drop(1) :+ r.word, existing :+ r)
       } else {
         existing
       }

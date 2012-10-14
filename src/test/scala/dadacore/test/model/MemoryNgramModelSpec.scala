@@ -74,5 +74,9 @@ object MemoryNgramModelSpec extends Specification {
       m.next(List("", "", "short")).words.map(n=>n.word) ==== Vector("sentence")
       m.next(List("", "short", "sentence")).words.map(n=>n.word) ==== Vector("")
     }
+    "Trying to generate random on empty model raises ModelIsEmptyException" in {
+      val m = new MemoryNgramModel(4)
+      m.generateRandom() must throwA[ModelIsEmptyException]
+    }
   }
 }
