@@ -38,8 +38,11 @@ class Chatter @Inject() (
     * @param date Date when text sentence is received. Current date and time by default.
     */
   def learn(text:String, source:String="", user:String="", date:Date = new Date()) {
-    model.learn(splitter.split(text), learnSourceStore.create())
-    logManager.writer.write(LearnLogElement(date, user, source, text))
+    val splitted = splitter.split(text)
+    if (!splitted.isEmpty) {
+      model.learn(splitted, learnSourceStore.create())
+      logManager.writer.write(LearnLogElement(date, user, source, text))
+    }
   }
 
   /** Generate random sentence of text. */
