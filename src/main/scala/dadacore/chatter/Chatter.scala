@@ -5,8 +5,9 @@ import dadacore.text.{Splitter, Joiner}
 import dadacore.learnsource.LearnSourceStore
 import dadacore.learnlog.{LearnLogElement, LearnLogManager}
 import java.util.Date
+import com.google.inject.Inject
 
-class Chatter(
+class Chatter @Inject() (
     model: AppendableNgramModel[String],
     logManager: LearnLogManager,
     splitter: Splitter,

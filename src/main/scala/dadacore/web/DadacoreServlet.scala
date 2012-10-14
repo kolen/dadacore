@@ -1,8 +1,14 @@
 package dadacore.web
 
 import org.scalatra.ScalatraServlet
+import com.google.inject.Guice
+import dadacore.DadacoreModule
+import dadacore.chatter.Chatter
 
 class DadacoreServlet extends ScalatraServlet {
+  val injector = Guice.createInjector(new DadacoreModule)
+  val chatter = injector.getInstance(classOf[Chatter])
+
   get("/") {
     contentType = "text/html"
     <html>
@@ -16,7 +22,7 @@ class DadacoreServlet extends ScalatraServlet {
     </form>
     <div>{
       for (i <- 0 until 50) yield
-        <p>{/*brain.generateRandom*/}</p>
+        <p>{chatter.generateRandom().text}</p>
       }
     </div>
     </body>
@@ -26,8 +32,8 @@ class DadacoreServlet extends ScalatraServlet {
   post("/api/learn") {
     val text = request.getParameter("text")
     val lines = text.split("\\s*(\\r|\\n)\\s*")
-//    for (line <- lines)
-//      brain.learn(line)
+    for (line <- lines)
+      chatter.learn(line)
     redirect("/")
   }
 }
