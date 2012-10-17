@@ -3,6 +3,8 @@
 html
   head
     link(rel="stylesheet" href="css/bootstrap.min.css")
+    script(src="//yandex.st/jquery/1.8.2/jquery.min.js" language="javascript")
+    script(src="js/bootstrap.min.js" language="javascript")
     :css
       body {
         padding-top: 60px;
@@ -19,8 +21,9 @@ html
           .nav-collapse.collapse
             ul.nav
               li
-                a(href="#") Home
-
+                a(href="#") Generate
+              li
+                a(role="button" href="#learnModal" data-toggle="modal") Learn
 
     .container-fluid
       .row-fluid
@@ -34,3 +37,10 @@ html
         .span9
           !~~ body
 
+    .modal.hide.span6#learnModal(tabIndex="-1" role="dialog" aria-labelledby="learnModalLabel" aria-hidden="true")
+      .modal-header
+        h3#learnModalLabel Learn
+      .modal-body.container-fluid
+        textarea.span6(rows="8")
+      .modal-footer
+        button.btn.btn-primary Save
