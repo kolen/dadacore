@@ -17,6 +17,9 @@ class DadacoreModule extends AbstractModule {
     bind(classOf[LearnSourceStore]).to(classOf[SimpleLearnSourceStore])
 
     bind(classOf[Int]).annotatedWith(Names.named("ngram model order")).toInstance(4)
+    //bind(classOf[String]).annotatedWith(Names.named("learn log filename")).toInstance(
+    //  System.getenv("OPENSHIFT_DATA_DIR") + "/learn.log")
+
     bind(classOf[String]).annotatedWith(Names.named("learn log filename")).toInstance("learn.log")
   }
 }
