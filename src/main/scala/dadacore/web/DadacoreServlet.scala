@@ -27,6 +27,6 @@ class DadacoreServlet extends ScalatraServlet with ScalateSupport {
     val lines = text.split("\\s*(\\r|\\n)\\s*")
     for (line <- lines)
       chatter.learn(line)
-    redirect("/")
+    "ok"
   }
 }
