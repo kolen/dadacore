@@ -5,6 +5,7 @@ import com.google.inject.Guice
 import dadacore.DadacoreModule
 import dadacore.chatter.Chatter
 import org.scalatra.scalate.ScalateSupport
+import dadacore.model.ModelIsEmptyException
 
 class DadacoreServlet extends ScalatraServlet with ScalateSupport {
   val injector = Guice.createInjector(new DadacoreModule)
@@ -12,7 +13,12 @@ class DadacoreServlet extends ScalatraServlet with ScalateSupport {
 
   get("/") {
     contentType = "text/html"
-    val generated = List.fill(50){chatter.generateRandom().text}
+    val generated = try {
+      List.fill(50){chatter.generateRandom().text}
+    } catch {
+      case e:ModelIsEmptyException => Nil
+    }
+
     jade("/index", "title" -> "test", "generatedSentences" -> generated)
   }
 
