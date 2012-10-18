@@ -18,3 +18,7 @@ $("#learn-save").click(function() {
     }
   })
 })
+
+$("#learnModal").on('shown', function() {
+  $("#learnModal .learn_text").focus()
+})
