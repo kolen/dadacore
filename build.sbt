@@ -22,3 +22,5 @@ libraryDependencies += "org.mockito" % "mockito-all" % "1.9.0" % "test"
 
 resolvers ++= Seq("snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
                   "releases"  at "http://oss.sonatype.org/content/repositories/releases")
+
+port in container.Configuration := 8081
