@@ -15,4 +15,29 @@
 		<servlet-name>dadacore</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>dadacore</web-resource-name>
+            <url-pattern>/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+
+        <auth-constraint>
+            <role-name>dadacore</role-name>
+        </auth-constraint>
+
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+    <security-role>
+        <description>Any user of the system</description>
+        <role-name>dadacore</role-name>
+    </security-role>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>dadacore</realm-name>
+    </login-config>
 </web-app>

@@ -25,8 +25,9 @@ class DadacoreServlet extends ScalatraServlet with ScalateSupport {
   post("/api/learn") {
     val text = request.getParameter("text")
     val lines = text.split("\\s*(\\r|\\n)\\s*")
+    val username = request.getRemoteUser match {case null => "-" case u:String => u}
     for (line <- lines)
-      chatter.learn(line)
+      chatter.learn(text=line, source="-", user=username)
     "ok"
   }
 }
