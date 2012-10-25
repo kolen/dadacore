@@ -1,9 +1,7 @@
 package dadacore.text
 
-import util.matching.Regex
-
 object RegularJoiner extends Joiner {
-  private val sentenceEndRegex = new Regex("[?!.\u2026]")
+  private val sentenceEndRegex = "[?!.\u2026]".r
 
   def join(words:Seq[String]):String = {
     // TODO: rewrite, some code left from times when joiner added spaces between words

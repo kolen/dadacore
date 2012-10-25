@@ -1,15 +1,13 @@
 package dadacore.text
 
-import scala.util.matching.Regex
-
 object RegularSplitter extends Splitter {
-  private val wordMatcher = new Regex("""(?mxs:
+  private val wordMatcher = """(?mxs:
     ([\p{L}\p{N}]+)  # word
     |
     ([^\p{L}\p{N}]+) # punctuation
-    )""")
+    )""".r
 
-  private val wordFixer = new Regex("\\s{2,}")
+  private val wordFixer = "\\s{2,}".r
 
   private object SentenceAndPeriod {
     def unapply (l: Seq[String]) =
