@@ -6,7 +6,7 @@ import dadacore.text.RegularSplitter
 object RegularSplitterSpec extends Specification {
   
   private val text1 = "Чирок-свистунок - будущего нет."
-  private val result1 = "чирок|-|свистунок| - |будущего| |нет|.|".split('|')
+  private val result1 = "чирок|-|свистунок| - |будущего| |нет".split('|')
   private val text2 = """
     — Ой! что это?!!!
     — Это пузи-блэкмиталист, тинки-винки.
@@ -25,7 +25,7 @@ object RegularSplitterSpec extends Specification {
     Блоггерка nordica1488 слушала current93 в 12:00 и у нее произошел ывсоР87рЫ72оч52 4 scывс34соам7a.
     """
   private val result4 = ("блоггерка| |nordica1488| |слушала| |current93| |в| |12|:|00| |и| |у| |нее| |произошел|" +
-      " |ывсор87ры72оч52| |4| |scывс34соам7a|.").split('|')
+      " |ывсор87ры72оч52| |4| |scывс34соам7a").split('|')
 
   def is =
     "RegularSplitter should" ^
